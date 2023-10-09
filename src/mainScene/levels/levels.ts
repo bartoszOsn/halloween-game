@@ -11,7 +11,10 @@ export const levels: Array<Level> = [
 			new Phaser.Math.Vector2(200, 550-100),
 			new Phaser.Math.Vector2(500, 450-100),
 			new Phaser.Math.Vector2(1000, 500-100),
+			new Phaser.Math.Vector2(1500, 450-100)
 		],
-		zombies: []
+		zombies: [
+			new Phaser.Math.Vector2(1000, 376),
+		]
 	}
 ]

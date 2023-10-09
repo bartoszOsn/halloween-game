@@ -5,6 +5,7 @@ import { PlatformsPartial } from './PlatformsPartial';
 import { PlayerPartial } from './PlayerPartial';
 import { Container } from '../util/Container';
 import { LEVEL_TOKEN } from './levels/LevelToken';
+import { ZombieService } from './ZombieService';
 
 export class MainScene extends Phaser.Scene {
 	private readonly level = levels[0];
@@ -14,11 +15,13 @@ export class MainScene extends Phaser.Scene {
 		.withValue(Phaser.Scene, this)
 		.withClass(BackgroundPartial, BackgroundPartial)
 		.withClass(PlatformsPartial, PlatformsPartial)
-		.withClass(PlayerPartial, PlayerPartial);
+		.withClass(PlayerPartial, PlayerPartial)
+		.withClass(ZombieService, ZombieService);
 
 	private readonly backgroundPartial = this.container.get(BackgroundPartial);
 	private readonly platformsPartial = this.container.get(PlatformsPartial);
 	private readonly playerPartial = this.container.get(PlayerPartial);
+	private readonly zombieService = this.container.get(ZombieService);
 
 	constructor() {
 		super('main scene');
@@ -28,12 +31,15 @@ export class MainScene extends Phaser.Scene {
 		this.backgroundPartial.load();
 		this.platformsPartial.load();
 		this.playerPartial.load();
+		this.zombieService.load();
+		this.zombieService.load();
 	}
 
 	create(): void {
 		this.backgroundPartial.create();
 		this.platformsPartial.create();
 		this.playerPartial.create();
+		this.zombieService.create();
 
 		this.physics.world.setBounds(
 			this.level.bounds.left,
@@ -66,6 +72,7 @@ export class MainScene extends Phaser.Scene {
 
 	update(): void {
 		this.playerPartial.update();
+		this.zombieService.update();
 
 		if (this.input.activePointer.isDown) {
 			console.log(this.input.activePointer.positionToCamera(this.cameras.main));

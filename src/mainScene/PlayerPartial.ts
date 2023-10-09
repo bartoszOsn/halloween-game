@@ -7,15 +7,16 @@ export enum PlayerFacingSide {
 }
 
 export interface PlayerState {
+	state: 'hurt' | 'walking' | 'idle';
 	facingSide: PlayerFacingSide;
 	lastTimeOnGround: number;
-	isWalking: boolean;
 }
 
 export class PlayerPartial {
 	private readonly LAST_TIME_ON_GROUND_JUMP_THRESHOLD = 150;
 	private readonly JUMP_SPEED = 300;
 	private readonly SPEED = 250;
+	private readonly KNOCKBACK_VECTOR = new Phaser.Math.Vector2(300, -300);
 
 	private readonly scene = inject(Phaser.Scene);
 	private readonly level = inject(LEVEL_TOKEN);
@@ -27,7 +28,7 @@ export class PlayerPartial {
 	private state: PlayerState = {
 		facingSide: PlayerFacingSide.Right,
 		lastTimeOnGround: Number.NEGATIVE_INFINITY,
-		isWalking: false
+		state: 'idle'
 	}
 
 	load() {
@@ -63,34 +64,50 @@ export class PlayerPartial {
 	update() {
 		if (!this.keys) return;
 
-		this.state.isWalking = this.keys.A.isDown || this.keys.D.isDown;
+		if (this.state.state !== 'hurt') {
+			if (this.keys.A.isDown || this.keys.D.isDown) {
+				this.state.state = 'walking';
+			} else {
+				this.state.state = 'idle';
+			}
 
-		if (this.keys.W.isDown && this.state.lastTimeOnGround + this.LAST_TIME_ON_GROUND_JUMP_THRESHOLD > this.scene.time.now) {
-			this.playerImage?.setVelocityY(-this.JUMP_SPEED);
-		}
+			if (this.keys.W.isDown && this.state.lastTimeOnGround + this.LAST_TIME_ON_GROUND_JUMP_THRESHOLD > this.scene.time.now) {
+				this.playerImage?.setVelocityY(-this.JUMP_SPEED);
+			}
 
-		if (this.keys.A.isDown) {
-			this.playerImage?.setVelocityX(-this.SPEED);
-			this.state.facingSide = PlayerFacingSide.Left;
-		}
+			if (this.keys.A.isDown) {
+				this.playerImage?.setVelocityX(-this.SPEED);
+				this.state.facingSide = PlayerFacingSide.Left;
+			}
 
-		if (this.keys.D.isDown) {
-			this.playerImage?.setVelocityX(this.SPEED);
-			this.state.facingSide = PlayerFacingSide.Right;
-		}
+			if (this.keys.D.isDown) {
+				this.playerImage?.setVelocityX(this.SPEED);
+				this.state.facingSide = PlayerFacingSide.Right;
+			}
 
 
-		this.playerImage?.setFlipX(this.state.facingSide === PlayerFacingSide.Right);
-		if (this.state.isWalking) {
-			this.playerImage?.anims.play(this.playerAnimation!, true);
-			console.log(this.playerImage?.anims.currentFrame);
-		} else {
-			this.playerImage?.anims.stop();
-			this.playerImage?.setFrame(0);
+			this.playerImage?.setFlipX(this.state.facingSide === PlayerFacingSide.Right);
+			if (this.state.state === 'walking') {
+				this.playerImage?.anims.play(this.playerAnimation!, true);
+			} else {
+				this.playerImage?.anims.stop();
+				this.playerImage?.setFrame(0);
+			}
 		}
 	}
 
 	onCollisionWithGround() {
 		this.state.lastTimeOnGround = this.scene.time.now;
+	}
+
+	hurtFrom(position: Phaser.Math.Vector2) {
+		const side = this.playerImage!.x > position.x ? 1 : -1;
+		this.playerImage?.setVelocity(side * this.KNOCKBACK_VECTOR.x, this.KNOCKBACK_VECTOR.y);
+		this.playerImage?.setTint(0xff0000);
+		this.state.state = 'hurt';
+		this.scene.time.delayedCall(200, () => {
+			this.playerImage?.setTint(0xffffff);
+			this.state.state = 'idle';
+		})
 	}
 }
