@@ -3,12 +3,22 @@ import { BackgroundPartial } from './BackgroundPartial';
 import { levels } from './levels/levels';
 import { PlatformsPartial } from './PlatformsPartial';
 import { PlayerPartial } from './PlayerPartial';
+import { Container } from '../util/Container';
+import { LEVEL_TOKEN } from './levels/LevelToken';
 
 export class MainScene extends Phaser.Scene {
 	private readonly level = levels[0];
-	private readonly backgroundPartial: BackgroundPartial = new BackgroundPartial(this, this.level);
-	private readonly platformsPartial: PlatformsPartial = new PlatformsPartial(this, this.level);
-	private readonly playerPartial: PlayerPartial = new PlayerPartial(this, this.level);
+
+	private readonly container = new Container()
+		.withValue(LEVEL_TOKEN, this.level)
+		.withValue(Phaser.Scene, this)
+		.withClass(BackgroundPartial, BackgroundPartial)
+		.withClass(PlatformsPartial, PlatformsPartial)
+		.withClass(PlayerPartial, PlayerPartial);
+
+	private readonly backgroundPartial = this.container.get(BackgroundPartial);
+	private readonly platformsPartial = this.container.get(PlatformsPartial);
+	private readonly playerPartial = this.container.get(PlayerPartial);
 
 	constructor() {
 		super('main scene');

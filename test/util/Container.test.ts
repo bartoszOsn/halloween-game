@@ -17,7 +17,7 @@ describe('Container', () => {
 			public name: string = 'SubClass';
 		}
 
-		container.with(BaseClass, SubClass);
+		container.withClass(BaseClass, SubClass);
 
 		// when
 		const instance = container.get(BaseClass);
@@ -36,8 +36,8 @@ describe('Container', () => {
 			readonly dependency = inject(Dependency);
 		}
 
-		container.with(Dependency, Dependency)
-			.with(Service, Service);
+		container.withClass(Dependency, Dependency)
+			.withClass(Service, Service);
 
 		// when
 		const instance = container.get(Service);
@@ -61,9 +61,9 @@ describe('Container', () => {
 			readonly dependency = inject(Dependency);
 		}
 
-		container.with(DeepDependency, DeepDependency)
-			.with(Dependency, Dependency)
-			.with(Service, Service);
+		container.withClass(DeepDependency, DeepDependency)
+			.withClass(Dependency, Dependency)
+			.withClass(Service, Service);
 
 		// when
 		const instance = container.get(Service);
@@ -88,9 +88,9 @@ describe('Container', () => {
 			readonly dependency = inject(Dependency);
 		}
 
-		container.with(DeepDependency, DeepDependency)
-			.with(Dependency, Dependency)
-			.with(Service, Service);
+		container.withClass(DeepDependency, DeepDependency)
+			.withClass(Dependency, Dependency)
+			.withClass(Service, Service);
 
 		// when
 		const instance = container.get(Service);
@@ -125,8 +125,8 @@ describe('Container', () => {
 			readonly dependency = inject(Dependency);
 		}
 
-		container.with(Dependency, Dependency)
-			.with(Service, Service);
+		container.withClass(Dependency, Dependency)
+			.withClass(Service, Service);
 
 		// when
 		const fn = () => inject(Service);
@@ -140,7 +140,7 @@ describe('Container', () => {
 		const Token = new InjectionToken<number>('Token');
 		const tokenValue = 42;
 
-		container.with(Token, tokenValue);
+		container.withValue(Token, tokenValue);
 
 		// when
 		const value = container.get(Token);

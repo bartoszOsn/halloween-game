@@ -1,8 +1,11 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../screenDimensions';
-import { Level } from './levels/Level';
+import { inject } from '../util/Container';
+import { LEVEL_TOKEN } from './levels/LevelToken';
 
 export class BackgroundPartial {
-	private readonly totalWidth = 20000;
+
+	private readonly scene = inject(Phaser.Scene);
+	private readonly level = inject(LEVEL_TOKEN);
 
 	private readonly layersScrollFactor: Record<number, number> = {
 		1: 0,
@@ -14,11 +17,6 @@ export class BackgroundPartial {
 		7: 0.7 / 2,
 		8: 0.8 / 2,
 		9: 1
-	}
-
-	image: undefined | Phaser.GameObjects.Image;
-
-	constructor(private readonly scene: Phaser.Scene, private readonly level: Level) {
 	}
 
 	load(): void {

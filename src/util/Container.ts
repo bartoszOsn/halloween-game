@@ -9,20 +9,20 @@ export class Container {
 	constructor() {
 	}
 
-	with<T>(token: InjectionToken<T>, value: T): Container;
-	with<T>(type: Constructor<T>, constructor: Constructor<T>): Container;
-	with<T>(type: Constructor<T> | InjectionToken<T>, constructorOrValue: Constructor<T> | T): Container {
-		if (type instanceof InjectionToken) {
-			this.typeToValue.set(type, constructorOrValue);
-			return this;
-		} else {
-			this.typeToConstructor.set(type, constructorOrValue as Constructor<T>);
-		}
+	withValue<T>(token: InjectionToken<T>, value: T): Container;
+	withValue<T>(type: Constructor<T>, value: T): Container;
+	withValue<T>(typeOrToken: Constructor<T> | InjectionToken<T>, value: T): Container {
+		this.typeToValue.set(typeOrToken, value);
 		return this;
 	}
 
-	get<T>(token: InjectionToken<T>): T;
+	withClass<T>(type: Constructor<T>, constructor: Constructor<T>): Container {
+		this.typeToConstructor.set(type, constructor);
+		return this;
+	}
+
 	get<T>(type: Constructor<T>): T;
+	get<T>(token: InjectionToken<T>): T;
 	get<T>(typeOrToken: Constructor<T> | InjectionToken<T>): T {
 		if (this.typeToValue.has(typeOrToken)) {
 			return this.typeToValue.get(typeOrToken) as T;
@@ -58,8 +58,8 @@ export class Container {
 	}
 }
 
-export function inject<T>(token: InjectionToken<T>): T;
 export function inject<T>(type: Constructor<T>): T;
+export function inject<T>(token: InjectionToken<T>): T;
 export function inject<T>(typeOrToken: Constructor<T> | InjectionToken<T>): T{
 	if (currentContainer === null) {
 		throw new Error(`Not in a scope of a container`);

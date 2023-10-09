@@ -1,4 +1,5 @@
-import { Level } from './levels/Level';
+import { inject } from '../util/Container';
+import { LEVEL_TOKEN } from './levels/LevelToken';
 
 export enum PlayerFacingSide {
 	Right,
@@ -16,6 +17,9 @@ export class PlayerPartial {
 	private readonly JUMP_SPEED = 300;
 	private readonly SPEED = 250;
 
+	private readonly scene = inject(Phaser.Scene);
+	private readonly level = inject(LEVEL_TOKEN);
+
 	public playerImage: Phaser.Physics.Arcade.Sprite | null = null;
 	private playerAnimation: Phaser.Animations.Animation | null = null;
 
@@ -24,12 +28,6 @@ export class PlayerPartial {
 		facingSide: PlayerFacingSide.Right,
 		lastTimeOnGround: Number.NEGATIVE_INFINITY,
 		isWalking: false
-	}
-
-	constructor(
-		private readonly scene: Phaser.Scene,
-		private readonly level: Level
-	) {
 	}
 
 	load() {

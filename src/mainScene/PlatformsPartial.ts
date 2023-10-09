@@ -1,14 +1,11 @@
 import Phaser from 'phaser';
-import { Level } from './levels/Level';
+import { inject } from '../util/Container';
+import { LEVEL_TOKEN } from './levels/LevelToken';
 
 export class PlatformsPartial {
+	private readonly scene = inject(Phaser.Scene);
+	private readonly level = inject(LEVEL_TOKEN);
 	public group: Phaser.Physics.Arcade.StaticGroup | null = null;
-
-	constructor(
-		private readonly scene: Phaser.Scene,
-		private readonly level: Level
-	) {
-	}
 
 	load() {
 		this.scene.load.image('platform', '/platform.png');
