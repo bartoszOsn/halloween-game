@@ -1,4 +1,4 @@
-import { Container, inject } from '../../src/util/Container';
+import { Container, inject, InjectionToken } from '../../src/util/Container';
 
 describe('Container', () => {
 	let container: Container = new Container();
@@ -133,5 +133,19 @@ describe('Container', () => {
 
 		// then
 		expect(fn).toThrowError('Not in a scope of a container');
+	});
+
+	it('should inject by tokens', () => {
+		// given
+		const Token = new InjectionToken<number>('Token');
+		const tokenValue = 42;
+
+		container.with(Token, tokenValue);
+
+		// when
+		const value = container.get(Token);
+
+		// then
+		expect(value).toBe(tokenValue);
 	})
 });
