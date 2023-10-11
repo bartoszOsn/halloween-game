@@ -1,7 +1,7 @@
 import { inject } from '../util/Container';
 import { LEVEL_TOKEN } from './levels/LevelToken';
 import { PlatformsPartial } from './PlatformsPartial';
-import { PlayerPartial } from './PlayerPartial';
+import { PlayerPartial } from './player/PlayerPartial';
 
 interface ZombieState {
 	state: 'appearing' | 'walking';

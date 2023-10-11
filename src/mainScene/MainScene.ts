@@ -2,10 +2,11 @@ import Phaser from 'phaser';
 import { BackgroundPartial } from './BackgroundPartial';
 import { levels } from './levels/levels';
 import { PlatformsPartial } from './PlatformsPartial';
-import { PlayerPartial } from './PlayerPartial';
+import { PlayerPartial } from './player/PlayerPartial';
 import { Container } from '../util/Container';
 import { LEVEL_TOKEN } from './levels/LevelToken';
 import { ZombieService } from './ZombieService';
+import { PlayerStateService } from './player/PlayerStateService';
 
 export class MainScene extends Phaser.Scene {
 	private readonly level = levels[0];
@@ -16,7 +17,8 @@ export class MainScene extends Phaser.Scene {
 		.withClass(BackgroundPartial, BackgroundPartial)
 		.withClass(PlatformsPartial, PlatformsPartial)
 		.withClass(PlayerPartial, PlayerPartial)
-		.withClass(ZombieService, ZombieService);
+		.withClass(ZombieService, ZombieService)
+		.withClass(PlayerStateService, PlayerStateService);
 
 	private readonly backgroundPartial = this.container.get(BackgroundPartial);
 	private readonly platformsPartial = this.container.get(PlatformsPartial);
