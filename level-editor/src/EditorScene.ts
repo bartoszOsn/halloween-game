@@ -4,9 +4,11 @@ import { BackgroundService } from './BackgroundService.ts';
 import { CursorService } from './CursorService.ts';
 import { ToolbarService } from './toolbar/ToolbarService.ts';
 import { ToolbarInfoService } from './toolbar/ToolbarInfoService.ts';
+import { LevelRepository } from './LevelRepository.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = new Container()
+		.withClass(LevelRepository, LevelRepository)
 		.withValue(Phaser.Scene, this)
 		.withClass(BackgroundService, BackgroundService)
 		.withClass(CursorService, CursorService)
