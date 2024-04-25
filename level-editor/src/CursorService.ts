@@ -11,6 +11,7 @@ export class CursorService {
 
 	create(): void {
 		this.rect = this.scene.add.rectangle(0, 0, TILE_SIZE, TILE_SIZE, 0xAAFFFF);
+		this.rect.setOrigin(0, 0);
 		this.rect.setAlpha(0.5);
 	}
 
@@ -27,6 +28,7 @@ export class CursorService {
 		const worldPos = tileToWorld(tilePos.x, tilePos.y);
 
 		this.rect.setPosition(worldPos.x, worldPos.y);
+		this.toolbarInfoService.setWorldPosition(rawWorldPoint);
 		this.toolbarInfoService.setPosition(tilePos);
 	}
 }
