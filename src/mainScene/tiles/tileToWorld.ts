@@ -7,3 +7,10 @@ export function tileToWorld(x: number, y: number): Point {
 	y: y * TILE_SIZE,
   }
 }
+
+export function worldToTile(x: number, y: number): Point {
+  return {
+	x: Math.floor(x / TILE_SIZE),
+	y: Math.floor(y / TILE_SIZE),
+  }
+}
