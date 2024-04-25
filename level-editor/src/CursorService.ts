@@ -1,9 +1,11 @@
 import { inject } from '../../src/util/Container.ts';
 import { TILE_SIZE } from '../../src/mainScene/tiles/TILE_SCALE.ts';
 import { tileToWorld, worldToTile } from '../../src/mainScene/tiles/tileToWorld.ts';
+import { ToolbarInfoService } from './toolbar/ToolbarInfoService.ts';
 
 export class CursorService {
 	private readonly scene = inject(Phaser.Scene);
+	private readonly toolbarInfoService = inject(ToolbarInfoService);
 
 	private rect: Phaser.GameObjects.Rectangle | null = null;
 
@@ -25,5 +27,6 @@ export class CursorService {
 		const worldPos = tileToWorld(tilePos.x, tilePos.y);
 
 		this.rect.setPosition(worldPos.x, worldPos.y);
+		this.toolbarInfoService.setPosition(tilePos);
 	}
 }
