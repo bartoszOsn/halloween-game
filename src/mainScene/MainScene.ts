@@ -1,12 +1,13 @@
 import Phaser from 'phaser';
 import { BackgroundPartial } from './BackgroundPartial';
 import { levels } from './levels/levels';
-import { PlatformsPartial } from './PlatformsPartial';
+import { TilesPartial } from './tiles/TilesPartial.ts';
 import { PlayerPartial } from './player/PlayerPartial';
 import { Container } from '../util/Container';
 import { LEVEL_TOKEN } from './levels/LevelToken';
 import { ZombieService } from './ZombieService';
 import { PlayerStateService } from './player/PlayerStateService';
+import { TILE_SIZE } from './tiles/TILE_SCALE.ts';
 
 export class MainScene extends Phaser.Scene {
 	private readonly level = levels[0];
@@ -15,13 +16,13 @@ export class MainScene extends Phaser.Scene {
 		.withValue(LEVEL_TOKEN, this.level)
 		.withValue(Phaser.Scene, this)
 		.withClass(BackgroundPartial, BackgroundPartial)
-		.withClass(PlatformsPartial, PlatformsPartial)
+		.withClass(TilesPartial, TilesPartial)
 		.withClass(PlayerPartial, PlayerPartial)
 		.withClass(ZombieService, ZombieService)
 		.withClass(PlayerStateService, PlayerStateService);
 
 	private readonly backgroundPartial = this.container.get(BackgroundPartial);
-	private readonly platformsPartial = this.container.get(PlatformsPartial);
+	private readonly platformsPartial = this.container.get(TilesPartial);
 	private readonly playerPartial = this.container.get(PlayerPartial);
 	private readonly zombieService = this.container.get(ZombieService);
 
@@ -44,17 +45,17 @@ export class MainScene extends Phaser.Scene {
 		this.zombieService.create();
 
 		this.physics.world.setBounds(
-			this.level.bounds.left,
-			this.level.bounds.top,
-			this.level.bounds.width,
-			this.level.bounds.height
+			0,
+			0,
+			this.level.sizeInTiles.width * TILE_SIZE,
+			this.level.sizeInTiles.height * TILE_SIZE
 		);
 
 		this.cameras.main.setBounds(
-			this.level.bounds.left,
-			this.level.bounds.top,
-			this.level.bounds.width,
-			this.level.bounds.height
+			0,
+			0,
+			this.level.sizeInTiles.width * TILE_SIZE,
+			this.level.sizeInTiles.height * TILE_SIZE
 		);
 
 		if (!this.playerPartial.playerImage || !this.platformsPartial.group) {

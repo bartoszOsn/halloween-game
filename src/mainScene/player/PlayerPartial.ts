@@ -1,6 +1,7 @@
 import { inject } from '../../util/Container';
 import { LEVEL_TOKEN } from '../levels/LevelToken';
 import { PlayerFacingSide, PlayerState, PlayerStateEvent, PlayerStateService } from './PlayerStateService';
+import { tileToWorld } from '../tiles/tileToWorld.ts';
 
 export class PlayerPartial {
 	private readonly LAST_TIME_ON_GROUND_JUMP_THRESHOLD = 150;
@@ -38,7 +39,8 @@ export class PlayerPartial {
 			],
 			repeat: -1
 		});
-		this.playerImage = this.scene.physics.add.sprite(this.level.startPosition.x, this.level.startPosition.y, 'player-walk-1')
+		const worldStartPosition = tileToWorld(this.level.startPosition.x, this.level.startPosition.y);
+		this.playerImage = this.scene.physics.add.sprite(worldStartPosition.x, worldStartPosition.y, 'player-walk-1')
 			.setGravityY(600)
 			.setCollideWorldBounds(true)
 			.setDragX(1000)

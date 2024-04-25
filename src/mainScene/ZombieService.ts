@@ -1,7 +1,8 @@
 import { inject } from '../util/Container';
 import { LEVEL_TOKEN } from './levels/LevelToken';
-import { PlatformsPartial } from './PlatformsPartial';
+import { TilesPartial } from './tiles/TilesPartial.ts';
 import { PlayerPartial } from './player/PlayerPartial';
+import { tileToWorld } from './tiles/tileToWorld.ts';
 
 interface ZombieState {
 	state: 'appearing' | 'walking';
@@ -15,10 +16,10 @@ export class ZombieService {
 
 	private readonly level = inject(LEVEL_TOKEN);
 	private readonly scene = inject(Phaser.Scene);
-	private readonly platformsPartial = inject(PlatformsPartial);
+	private readonly platformsPartial = inject(TilesPartial);
 	private readonly playerPartial = inject(PlayerPartial);
 
-	private zombiesToSpawn = [...this.level.zombies];
+	private zombiesToSpawn = [...this.level.zombies].map(zombie => tileToWorld(zombie.x, zombie.y));
 	private readonly zombies: Array<ZombieState> = [];
 	private zombieGroup: Phaser.Physics.Arcade.Group | null = null;
 
@@ -128,7 +129,7 @@ export class ZombieService {
 		}
 	}
 
-	private spawnZombie(position: Phaser.Math.Vector2): void {
+	private spawnZombie(position: {x: number, y: number}): void {
 
 		const zombie = this.scene.physics.add.sprite(position.x, position.y, 'zombie-appear-1')
 			.setOrigin(0.5, 1);

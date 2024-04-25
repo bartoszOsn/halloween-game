@@ -1,6 +1,7 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../screenDimensions';
 import { inject } from '../util/Container';
 import { LEVEL_TOKEN } from './levels/LevelToken';
+import { TILE_SIZE } from './tiles/TILE_SCALE.ts';
 
 export class BackgroundPartial {
 
@@ -35,7 +36,7 @@ export class BackgroundPartial {
 	}
 
 	private createAligned(texture: string, scrollFactor: number) {
-		const totalWidth = this.level.bounds.width + SCREEN_WIDTH / scrollFactor;
+		const totalWidth = (this.level.sizeInTiles.width * TILE_SIZE) + SCREEN_WIDTH / scrollFactor;
 		const count = scrollFactor === 0 ? 1 : Math.ceil(totalWidth / SCREEN_WIDTH) * scrollFactor;
 
 		let x = 0;
