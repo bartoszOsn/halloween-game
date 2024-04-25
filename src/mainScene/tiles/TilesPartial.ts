@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { inject } from '../../util/Container.ts';
 import { LEVEL_TOKEN } from '../levels/LevelToken.ts';
 import { TileType } from './TileType.ts';
-import { TILE_SCALE, TILE_SIZE } from './TILE_SCALE.ts';
+import { TILE_SCALE } from './TILE_SCALE.ts';
 import { tileToWorld } from './tileToWorld.ts';
 
 export class TilesPartial {

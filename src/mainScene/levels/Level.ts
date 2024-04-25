@@ -1,8 +1,9 @@
-import Vector2 = Phaser.Math.Vector2;
+import { Point } from '../../util/Point.ts';
+import { Size } from '../../util/Size.ts';
 
 export interface Level {
-	startPosition: Vector2;
-	sizeInTiles: {width: number, height: number};
-	groundTiles: Array<{x: number, y: number}>;
-	zombies: Vector2[];
+	startPosition: Point;
+	sizeInTiles: Size;
+	groundTiles: Array<Point>;
+	zombies: Array<Point>;
 }

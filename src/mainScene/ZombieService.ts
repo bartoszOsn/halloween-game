@@ -3,6 +3,7 @@ import { LEVEL_TOKEN } from './levels/LevelToken';
 import { TilesPartial } from './tiles/TilesPartial.ts';
 import { PlayerPartial } from './player/PlayerPartial';
 import { tileToWorld } from './tiles/tileToWorld.ts';
+import { Point } from '../util/Point.ts';
 
 interface ZombieState {
 	state: 'appearing' | 'walking';
@@ -129,7 +130,7 @@ export class ZombieService {
 		}
 	}
 
-	private spawnZombie(position: {x: number, y: number}): void {
+	private spawnZombie(position: Point): void {
 
 		const zombie = this.scene.physics.add.sprite(position.x, position.y, 'zombie-appear-1')
 			.setOrigin(0.5, 1);
