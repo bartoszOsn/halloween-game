@@ -6,6 +6,7 @@ import { ToolbarService } from './toolbar/ToolbarService.ts';
 import { ToolbarInfoService } from './toolbar/ToolbarInfoService.ts';
 import { LevelRepository } from './LevelRepository.ts';
 import { BoundService } from './BoundService.ts';
+import { CameraService } from './CameraService.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = new Container()
@@ -15,30 +16,32 @@ export class EditorScene extends Phaser.Scene {
 		.withClass(CursorService, CursorService)
 		.withClass(ToolbarService, ToolbarService)
 		.withClass(ToolbarInfoService, ToolbarInfoService)
-		.withClass(BoundService, BoundService);
+		.withClass(BoundService, BoundService)
+		.withClass(CameraService, CameraService);
 
-	private readonly backgroundService = this.container.get(BackgroundService);
 	private readonly cursorService = this.container.get(CursorService);
 	private readonly toolbarService = this.container.get(ToolbarService);
 	private readonly boundService = this.container.get(BoundService);
+	private readonly cameraService = this.container.get(CameraService);
 
 	constructor() {
 		super('editor scene');
 	}
 
 	preload(): void {
-		this.backgroundService.preload();
+		this.boundService.preload();
 	}
 
 	create(): void {
 		this.toolbarService.init();
 
-		this.backgroundService.create();
-		this.cursorService.create();
 		this.boundService.create();
+		this.cursorService.create();
+		this.cameraService.create();
 	}
 
 	update(): void {
 		this.cursorService.update();
+		this.cameraService.update();
 	}
 }
