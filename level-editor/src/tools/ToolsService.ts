@@ -3,10 +3,12 @@ import { BoundsTool } from './BoundsTool.ts';
 import { inject } from '../../../src/util/Container.ts';
 import { ToolbarToolsService } from '../toolbar/ToolbarToolsService.ts';
 import { PointerTool } from './PointerTool.ts';
+import { StartPositionTool } from './StartPositionTool.ts';
 
 const tools: Array<{ new (): Tool }> = [
 	PointerTool,
-	BoundsTool
+	BoundsTool,
+	StartPositionTool
 ];
 
 export class ToolsService {

@@ -11,6 +11,8 @@ import { ToolbarToolsService } from './toolbar/ToolbarToolsService.ts';
 import { BoundsTool } from './tools/BoundsTool.ts';
 import { ToolsService } from './tools/ToolsService.ts';
 import { PointerTool } from './tools/PointerTool.ts';
+import { LevelRenderService } from './LevelRenderService.ts';
+import { StartPositionTool } from './tools/StartPositionTool.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = new Container()
@@ -24,15 +26,18 @@ export class EditorScene extends Phaser.Scene {
 		.withClass(CameraService, CameraService)
 		.withClass(ToolbarToolsService, ToolbarToolsService)
 		.withClass(ToolsService, ToolsService)
+		.withClass(LevelRenderService, LevelRenderService)
 
 		.withClass(PointerTool, PointerTool)
-		.withClass(BoundsTool, BoundsTool);
+		.withClass(BoundsTool, BoundsTool)
+		.withClass(StartPositionTool, StartPositionTool);
 
 	private readonly cursorService = this.container.get(CursorService);
 	private readonly toolbarService = this.container.get(ToolbarService);
 	private readonly boundService = this.container.get(BoundService);
 	private readonly cameraService = this.container.get(CameraService);
 	private readonly toolsService = this.container.get(ToolsService);
+	private readonly levelRenderService = this.container.get(LevelRenderService);
 
 	constructor() {
 		super('editor scene');
@@ -49,6 +54,7 @@ export class EditorScene extends Phaser.Scene {
 		this.cursorService.create();
 		this.cameraService.create();
 		this.toolsService.create();
+		this.levelRenderService.create();
 	}
 
 	update(): void {
