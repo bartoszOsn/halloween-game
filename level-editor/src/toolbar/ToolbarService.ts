@@ -1,9 +1,11 @@
 import { SCREEN_HEIGHT } from '../../../src/screenDimensions.ts';
 import { ToolbarInfoService } from './ToolbarInfoService.ts';
 import { inject } from '../../../src/util/Container.ts';
+import { ToolbarToolsService } from './ToolbarToolsService.ts';
 
 export class ToolbarService {
 	private readonly toolbarInfoService = inject(ToolbarInfoService);
+	private readonly toolbarToolsService = inject(ToolbarToolsService);
 
 	init(): void {
 		this.createDOM();
@@ -20,6 +22,7 @@ export class ToolbarService {
 		container.style.width = '100%';
 
 		this.toolbarInfoService.init(container);
+		this.toolbarToolsService.init(container);
 
 		document.body.prepend(container);
 	}
