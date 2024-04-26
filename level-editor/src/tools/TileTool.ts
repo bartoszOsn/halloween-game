@@ -15,6 +15,8 @@ export class TileTool extends Tool {
     deactivate(): void {}
 
     update(): void {
+		if (!this.scene.input.manager.isOver) return;
+
 		const tilePos = worldToTile(this.scene.input.activePointer.worldX, this.scene.input.activePointer.worldY);
         if (this.scene.input.activePointer.leftButtonDown()) {
 			this.levelRepository.addTile(tilePos);

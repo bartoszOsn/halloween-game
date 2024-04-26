@@ -20,4 +20,5 @@ export enum TileType {
 	OXOO = 14,
 	OOXO = 2,
 	OOOX = 16,
+	OOOO = 1
 }

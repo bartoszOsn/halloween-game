@@ -3,46 +3,34 @@ import { BackgroundPartial } from './BackgroundPartial';
 import { levels } from './levels/levels';
 import { TilesPartial } from './tiles/TilesPartial.ts';
 import { PlayerPartial } from './player/PlayerPartial';
-import { Container } from '../util/Container';
-import { LEVEL_TOKEN } from './levels/LevelToken';
+import { injectForward } from '../util/Container';
 import { ZombieService } from './ZombieService';
-import { PlayerStateService } from './player/PlayerStateService';
 import { TILE_SIZE } from './tiles/TILE_SCALE.ts';
+import { Level } from './levels/Level.ts';
 
 export class MainScene extends Phaser.Scene {
-	private readonly level = levels[0];
+	private readonly backgroundPartial = injectForward(BackgroundPartial);
+	private readonly platformsPartial = injectForward(TilesPartial);
+	private readonly playerPartial = injectForward(PlayerPartial);
+	private readonly zombieService = injectForward(ZombieService);
 
-	private readonly container = new Container()
-		.withValue(LEVEL_TOKEN, this.level)
-		.withValue(Phaser.Scene, this)
-		.withClass(BackgroundPartial, BackgroundPartial)
-		.withClass(TilesPartial, TilesPartial)
-		.withClass(PlayerPartial, PlayerPartial)
-		.withClass(ZombieService, ZombieService)
-		.withClass(PlayerStateService, PlayerStateService);
-
-	private readonly backgroundPartial = this.container.get(BackgroundPartial);
-	private readonly platformsPartial = this.container.get(TilesPartial);
-	private readonly playerPartial = this.container.get(PlayerPartial);
-	private readonly zombieService = this.container.get(ZombieService);
-
-	constructor() {
+	constructor(private readonly level: Level = levels[0]) {
 		super('main scene');
 	}
 
 	preload(): void {
-		this.backgroundPartial.load();
-		this.platformsPartial.load();
-		this.playerPartial.load();
-		this.zombieService.load();
-		this.zombieService.load();
+		this.backgroundPartial.value.load();
+		this.platformsPartial.value.load();
+		this.playerPartial.value.load();
+		this.zombieService.value.load();
+		this.zombieService.value.load();
 	}
 
 	create(): void {
-		this.backgroundPartial.create();
-		this.platformsPartial.create();
-		this.playerPartial.create();
-		this.zombieService.create();
+		this.backgroundPartial.value.create();
+		this.platformsPartial.value.create();
+		this.playerPartial.value.create();
+		this.zombieService.value.create();
 
 		this.physics.world.setBounds(
 			0,
@@ -58,15 +46,15 @@ export class MainScene extends Phaser.Scene {
 			this.level.sizeInTiles.height * TILE_SIZE
 		);
 
-		if (!this.playerPartial.playerImage || !this.platformsPartial.group) {
+		if (!this.playerPartial.value.playerImage || !this.platformsPartial.value.group) {
 			throw new Error('Player or platforms not initialized');
 		}
 		this.physics.add.collider(
-			this.playerPartial.playerImage,
-			this.platformsPartial.group,
+			this.playerPartial.value.playerImage,
+			this.platformsPartial.value.group,
 			() => {
-				if (this.playerPartial.playerImage?.body?.touching.down) {
-					this.playerPartial.onCollisionWithGround();
+				if (this.playerPartial.value.playerImage?.body?.touching.down) {
+					this.playerPartial.value.onCollisionWithGround();
 				}
 
 			}
@@ -74,8 +62,8 @@ export class MainScene extends Phaser.Scene {
 	}
 
 	update(): void {
-		this.playerPartial.update();
-		this.zombieService.update();
+		this.playerPartial.value.update();
+		this.zombieService.value.update();
 
 		if (this.input.activePointer.isDown) {
 			console.log(this.input.activePointer.positionToCamera(this.cameras.main));

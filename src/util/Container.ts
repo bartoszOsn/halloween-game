@@ -71,3 +71,29 @@ export class InjectionToken<T> {
 	constructor(public readonly name: string, public readonly defaultValue?: T) {
 	}
 }
+
+interface ValueRef<T> {
+	value: T;
+}
+
+const INJECT_FORWARD_EMPTY_SYMBOL = Symbol('INJECT_FORWARD_EMPTY_SYMBOL');
+
+export function injectForward<T>(type: Constructor<T>): ValueRef<T>;
+export function injectForward<T>(token: InjectionToken<T>): ValueRef<T>;
+export function injectForward<T>(typeOrToken: Constructor<T> | InjectionToken<T>): ValueRef<T> {
+	if (currentContainer === null) {
+		throw new Error(`Not in a scope of a container`);
+	}
+	const container = currentContainer;
+	let value: T | typeof INJECT_FORWARD_EMPTY_SYMBOL = INJECT_FORWARD_EMPTY_SYMBOL;
+	const valueRef: ValueRef<T> = {
+		get value() {
+			if (value === INJECT_FORWARD_EMPTY_SYMBOL) {
+				value = container.get(typeOrToken);
+			}
+			return value;
+		}
+	}
+
+	return valueRef;
+}

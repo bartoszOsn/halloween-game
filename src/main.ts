@@ -1,16 +1,17 @@
 import './style.css'
-import { MainScene } from './mainScene/MainScene';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from './screenDimensions';
+import { createMainScene } from './mainScene/createMainScene.ts';
 
 const game = new Phaser.Game({
 	  type: Phaser.AUTO,
 	  width: SCREEN_WIDTH,
 	  height: SCREEN_HEIGHT,
-	  scene: MainScene,
+	  scene: createMainScene(),
 	  physics: {
 		  default: 'arcade',
 		  arcade: {
-			debug: true
+			// debug: true
+			debug: false
 		  }
 	  },
 	disableContextMenu: true

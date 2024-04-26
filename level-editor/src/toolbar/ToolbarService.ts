@@ -2,10 +2,12 @@ import { SCREEN_HEIGHT } from '../../../src/screenDimensions.ts';
 import { ToolbarInfoService } from './ToolbarInfoService.ts';
 import { inject } from '../../../src/util/Container.ts';
 import { ToolbarToolsService } from './ToolbarToolsService.ts';
+import { ToolbarPreviewService } from './ToolbarPreviewService.ts';
 
 export class ToolbarService {
 	private readonly toolbarInfoService = inject(ToolbarInfoService);
 	private readonly toolbarToolsService = inject(ToolbarToolsService);
+	private readonly toolbarPreviewService = inject(ToolbarPreviewService);
 
 	init(): void {
 		this.createDOM();
@@ -20,9 +22,11 @@ export class ToolbarService {
 		container.style.gap = '8px';
 		container.style.padding = '16px';
 		container.style.width = '100%';
+		container.style.justifyContent = 'space-between';
 
 		this.toolbarInfoService.init(container);
 		this.toolbarToolsService.init(container);
+		this.toolbarPreviewService.init(container);
 
 		document.body.prepend(container);
 	}
