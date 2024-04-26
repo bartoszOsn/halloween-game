@@ -14,7 +14,8 @@ export class LevelRepository extends EventEmitter<{
 	private readonly level: Level = {
 		sizeInTiles: { width: 50, height: 30 },
 		startPosition: { x: 0, y: 0 },
-		groundTiles: [],
+		groundTiles: [
+		],
 		zombies: []
 	}
 

@@ -45,6 +45,7 @@ export class EditorScene extends Phaser.Scene {
 
 	preload(): void {
 		this.boundService.preload();
+		this.levelRenderService.preload();
 	}
 
 	create(): void {
