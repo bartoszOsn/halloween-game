@@ -35,7 +35,7 @@ export class ToolbarToolsService extends EventEmitter<{
 			}
 		}
 
-		this.emit('toolSelected', tool.name);
+		this.emit('toolSelected', tool.id);
 	}
 
 	private createDOM(container: HTMLDivElement): void {
