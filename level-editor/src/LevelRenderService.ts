@@ -14,7 +14,7 @@ export class LevelRenderService {
 	private tiles: Set<Phaser.GameObjects.Image> = new Set();
 
 	preload(): void {
-		this.scene.load.image(this.TILE_TEXTURE, '/tiles/Tiles/Tile (1).png')
+		this.scene.load.image(this.TILE_TEXTURE, '/tiles/Tiles/Tile (5).png')
 	}
 
 	create(): void {

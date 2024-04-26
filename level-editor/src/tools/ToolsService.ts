@@ -4,11 +4,13 @@ import { inject } from '../../../src/util/Container.ts';
 import { ToolbarToolsService } from '../toolbar/ToolbarToolsService.ts';
 import { PointerTool } from './PointerTool.ts';
 import { StartPositionTool } from './StartPositionTool.ts';
+import { TileTool } from './TileTool.ts';
 
 const tools: Array<{ new (): Tool }> = [
 	PointerTool,
 	BoundsTool,
-	StartPositionTool
+	StartPositionTool,
+	TileTool
 ];
 
 export class ToolsService {
