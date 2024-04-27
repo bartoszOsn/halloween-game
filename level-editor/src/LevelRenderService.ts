@@ -9,12 +9,15 @@ export class LevelRenderService {
 	private readonly levelRepository = inject(LevelRepository);
 
 	private readonly TILE_TEXTURE = 'tile';
+	private readonly GRAVE_TEXTURE = 'grave';
 
 	private startPositionMark: Phaser.GameObjects.Arc | null = null;
 	private tiles: Set<Phaser.GameObjects.Image> = new Set();
+	private graves: Set<Phaser.GameObjects.Image> = new Set();
 
 	preload(): void {
 		this.scene.load.image(this.TILE_TEXTURE, '/tiles/Tiles/Tile (5).png')
+		this.scene.load.image(this.GRAVE_TEXTURE, '/tiles/Objects/TombStone (1).png')
 	}
 
 	create(): void {
@@ -23,6 +26,8 @@ export class LevelRenderService {
 		this.levelRepository.on('startPositionChanged', () => this.renderStartPosition());
 		this.levelRepository.on('tileAdded', (tile) => this.addTile(tile));
 		this.levelRepository.on('tileRemoved', (tile) => this.removeTile(tile));
+		this.levelRepository.on('zombieAdded', (zombie) => this.addGrave(zombie));
+		this.levelRepository.on('zombieRemoved', (zombie) => this.removeGrave(zombie));
 	}
 
 	private createStartPositionMark(): void {
@@ -50,6 +55,23 @@ export class LevelRenderService {
 		Array.from(this.tiles).filter((image) => image.x === worldPosition.x && image.y === worldPosition.y).forEach((image) => {
 			image.destroy();
 			this.tiles.delete(image);
+		});
+	}
+
+	private addGrave(grave: Point): void {
+		const worldPosition = tileToWorld(grave.x, grave.y);
+		const image = this.scene.add.image(worldPosition.x, worldPosition.y, this.GRAVE_TEXTURE)
+			.setOrigin(0, 0)
+			.setScale(0.5, 0.5);
+
+		this.graves?.add(image);
+	}
+
+	private removeGrave(grave: Point): void {
+		const worldPosition = tileToWorld(grave.x, grave.y);
+		Array.from(this.graves).filter((image) => image.x === worldPosition.x && image.y === worldPosition.y).forEach((image) => {
+			image.destroy();
+			this.graves.delete(image);
 		});
 	}
 }

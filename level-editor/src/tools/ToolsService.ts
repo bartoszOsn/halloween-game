@@ -5,12 +5,14 @@ import { ToolbarToolsService } from '../toolbar/ToolbarToolsService.ts';
 import { PointerTool } from './PointerTool.ts';
 import { StartPositionTool } from './StartPositionTool.ts';
 import { TileTool } from './TileTool.ts';
+import { ZombieTool } from './ZombieTool.ts';
 
 const tools: Array<{ new (): Tool }> = [
 	PointerTool,
 	BoundsTool,
 	StartPositionTool,
-	TileTool
+	TileTool,
+	ZombieTool
 ];
 
 export class ToolsService {

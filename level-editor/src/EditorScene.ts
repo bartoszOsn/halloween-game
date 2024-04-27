@@ -15,6 +15,7 @@ import { LevelRenderService } from './LevelRenderService.ts';
 import { StartPositionTool } from './tools/StartPositionTool.ts';
 import { TileTool } from './tools/TileTool.ts';
 import { ToolbarPreviewService } from './toolbar/ToolbarPreviewService.ts';
+import { ZombieTool } from './tools/ZombieTool.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = new Container()
@@ -34,7 +35,8 @@ export class EditorScene extends Phaser.Scene {
 		.withClass(PointerTool, PointerTool)
 		.withClass(BoundsTool, BoundsTool)
 		.withClass(StartPositionTool, StartPositionTool)
-		.withClass(TileTool, TileTool);
+		.withClass(TileTool, TileTool)
+		.withClass(ZombieTool, ZombieTool);
 
 	private readonly cursorService = this.container.get(CursorService);
 	private readonly toolbarService = this.container.get(ToolbarService);
