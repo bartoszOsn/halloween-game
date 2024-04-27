@@ -5,7 +5,7 @@ import { tileToWorld } from '../tiles/tileToWorld.ts';
 
 export class PlayerPartial {
 	private readonly LAST_TIME_ON_GROUND_JUMP_THRESHOLD = 150;
-	private readonly JUMP_SPEED = 300;
+	private readonly JUMP_SPEED = 330;
 	private readonly SPEED = 250;
 	private readonly KNOCKBACK_VECTOR = new Phaser.Math.Vector2(300, -300);
 
@@ -44,7 +44,7 @@ export class PlayerPartial {
 			.setGravityY(600)
 			.setCollideWorldBounds(true)
 			.setDragX(1000)
-			.setScale(0.2, 0.2);
+			.setScale(0.19, 0.19);
 
 		this.keys = this.scene.input.keyboard?.addKeys('W,A,S,D') as any;
 		this.scene.cameras.main.startFollow(this.playerImage);
