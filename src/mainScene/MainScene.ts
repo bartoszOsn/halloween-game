@@ -1,20 +1,21 @@
 import Phaser from 'phaser';
 import { BackgroundPartial } from './BackgroundPartial';
-import { levels } from './levels/levels';
 import { TilesPartial } from './tiles/TilesPartial.ts';
 import { PlayerPartial } from './player/PlayerPartial';
 import { injectForward } from '../util/Container';
 import { ZombieService } from './ZombieService';
 import { TILE_SIZE } from './tiles/TILE_SCALE.ts';
-import { Level } from './levels/Level.ts';
+import { LEVEL_TOKEN } from './levels/LevelToken.ts';
+import { SCREEN_HEIGHT } from '../screenDimensions.ts';
 
 export class MainScene extends Phaser.Scene {
+	private readonly level = injectForward(LEVEL_TOKEN);
 	private readonly backgroundPartial = injectForward(BackgroundPartial);
 	private readonly platformsPartial = injectForward(TilesPartial);
 	private readonly playerPartial = injectForward(PlayerPartial);
 	private readonly zombieService = injectForward(ZombieService);
 
-	constructor(private readonly level: Level = levels[0]) {
+	constructor() {
 		super('main scene');
 	}
 
@@ -35,15 +36,15 @@ export class MainScene extends Phaser.Scene {
 		this.physics.world.setBounds(
 			0,
 			0,
-			this.level.sizeInTiles.width * TILE_SIZE,
-			this.level.sizeInTiles.height * TILE_SIZE
+			this.level.value.sizeInTiles.width * TILE_SIZE,
+			this.level.value.sizeInTiles.height * TILE_SIZE + SCREEN_HEIGHT
 		);
 
 		this.cameras.main.setBounds(
 			0,
 			0,
-			this.level.sizeInTiles.width * TILE_SIZE,
-			this.level.sizeInTiles.height * TILE_SIZE
+			this.level.value.sizeInTiles.width * TILE_SIZE,
+			this.level.value.sizeInTiles.height * TILE_SIZE
 		);
 
 		if (!this.playerPartial.value.playerImage || !this.platformsPartial.value.group) {
