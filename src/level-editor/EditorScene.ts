@@ -21,6 +21,7 @@ import { DialogService } from './util/DialogService.ts';
 import { SignTool } from './tools/SignTool.ts';
 import { ToolbarLevelJsonService } from './toolbar/ToolbarLevelJsonService.ts';
 import { ToolbarResetLevelService } from './toolbar/ToolbarResetLevelService.ts';
+import { LEVEL_STORAGE_KEY } from '../LEVEL_STORAGE_KEY.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = new Container()
@@ -54,6 +55,7 @@ export class EditorScene extends Phaser.Scene {
 	private readonly cameraService = this.container.get(CameraService);
 	private readonly toolsService = this.container.get(ToolsService);
 	private readonly levelRenderService = this.container.get(LevelRenderService);
+	private readonly levelRepository = this.container.get(LevelRepository);
 
 	constructor() {
 		super('editor scene');
@@ -72,6 +74,12 @@ export class EditorScene extends Phaser.Scene {
 		this.cameraService.create();
 		this.toolsService.create();
 		this.levelRenderService.create();
+
+		const lsRaw = localStorage.getItem(LEVEL_STORAGE_KEY);
+		if (lsRaw) {
+			const level = JSON.parse(lsRaw);
+			this.levelRepository.loadLevel(level);
+		}
 	}
 
 	update(): void {
