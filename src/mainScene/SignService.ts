@@ -59,14 +59,17 @@ export class SignService {
 
 		const tilePos = worldToTile(sign.x, sign.y);
 
-		const textContent = this.level.signs.find(sign => sign.position.x === tilePos.x && sign.position.y === tilePos.y)?.text ?? '';
+		const textContent = '\n' + this.level.signs.find(sign => sign.position.x === tilePos.x && sign.position.y === tilePos.y)?.text ?? '';
 
 		const overlay = this.scene
 			.add.rectangle(10, 10, 300, 150, 0x000000, 0.5)
-			.setOrigin(0, 0);
-		const text = this.scene.add.text(0, 0, textContent, { color: '#ffffff', fontSize: '20px' })
+			.setOrigin(0, 0)
+			.setScrollFactor(0);
+		const text = this.scene
+			.add.text(0, 0, textContent, { color: '#ffffff', fontSize: '20px' })
+			.setScrollFactor(0);
 
-		Phaser.Display.Align.In.Center(text, overlay);
+		Phaser.Display.Align.In.TopLeft(text, overlay, -16);
 		this.signOverlay.add(overlay);
 		this.signOverlay.add(text);
 

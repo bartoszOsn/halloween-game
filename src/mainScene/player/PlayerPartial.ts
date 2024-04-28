@@ -2,6 +2,7 @@ import { inject } from '../../util/Container';
 import { LEVEL_TOKEN } from '../levels/LevelToken';
 import { PlayerFacingSide, PlayerState, PlayerStateEvent, PlayerStateService } from './PlayerStateService';
 import { tileToWorld } from '../tiles/tileToWorld.ts';
+import { SCREEN_HEIGHT } from '../../screenDimensions.ts';
 
 export class PlayerPartial {
 	private readonly LAST_TIME_ON_GROUND_JUMP_THRESHOLD = 150;
@@ -47,7 +48,7 @@ export class PlayerPartial {
 			.setScale(0.19, 0.19);
 
 		this.keys = this.scene.input.keyboard?.addKeys('W,A,S,D') as any;
-		this.scene.cameras.main.startFollow(this.playerImage);
+		this.scene.cameras.main.startFollow(this.playerImage, false, 1, 1, 0, SCREEN_HEIGHT / 6);
 
 		this.playerStateService.on(PlayerStateEvent.ENTER_STATE, (newState: PlayerState) => {
 			if (newState === 'walking') {
