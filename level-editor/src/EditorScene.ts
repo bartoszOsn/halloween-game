@@ -19,6 +19,7 @@ import { ZombieTool } from './tools/ZombieTool.ts';
 import { TileAreaTool } from './tools/TileAreaTool.ts';
 import { DialogService } from './util/DialogService.ts';
 import { SignTool } from './tools/SignTool.ts';
+import { ToolbarLevelJsonService } from './toolbar/ToolbarLevelJsonService.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = new Container()
@@ -35,6 +36,7 @@ export class EditorScene extends Phaser.Scene {
 		.withClass(ToolsService, ToolsService)
 		.withClass(LevelRenderService, LevelRenderService)
 		.withClass(ToolbarPreviewService, ToolbarPreviewService)
+		.withClass(ToolbarLevelJsonService, ToolbarLevelJsonService)
 
 		.withClass(PointerTool, PointerTool)
 		.withClass(BoundsTool, BoundsTool)

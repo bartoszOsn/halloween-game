@@ -49,6 +49,7 @@ export class PlayerPartial {
 
 		this.keys = this.scene.input.keyboard?.addKeys('W,A,S,D') as any;
 		this.scene.cameras.main.startFollow(this.playerImage, false, 1, 1, 0, SCREEN_HEIGHT / 6);
+		this.scene.cameras.main.postFX.addVignette(0.5, 0.5, 0.9);
 
 		this.playerStateService.on(PlayerStateEvent.ENTER_STATE, (newState: PlayerState) => {
 			if (newState === 'walking') {

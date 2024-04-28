@@ -3,11 +3,13 @@ import { ToolbarInfoService } from './ToolbarInfoService.ts';
 import { inject } from '../../../src/util/Container.ts';
 import { ToolbarToolsService } from './ToolbarToolsService.ts';
 import { ToolbarPreviewService } from './ToolbarPreviewService.ts';
+import { ToolbarLevelJsonService } from './ToolbarLevelJsonService.ts';
 
 export class ToolbarService {
 	private readonly toolbarInfoService = inject(ToolbarInfoService);
 	private readonly toolbarToolsService = inject(ToolbarToolsService);
 	private readonly toolbarPreviewService = inject(ToolbarPreviewService);
+	private readonly toolbarLevelJsonService = inject(ToolbarLevelJsonService);
 
 	init(): void {
 		this.createDOM();
@@ -26,7 +28,15 @@ export class ToolbarService {
 
 		this.toolbarInfoService.init(container);
 		this.toolbarToolsService.init(container);
-		this.toolbarPreviewService.init(container);
+
+		const actionsContainer = document.createElement('div');
+		actionsContainer.style.display = 'flex';
+		actionsContainer.style.gap = '8px';
+
+		container.append(actionsContainer);
+
+		this.toolbarPreviewService.init(actionsContainer);
+		this.toolbarLevelJsonService.init(actionsContainer);
 
 		document.body.prepend(container);
 	}
