@@ -1,7 +1,7 @@
 import { EventEmitter } from './util/EventEmitter.ts';
-import { Size } from '../../src/util/Size.ts';
-import { Point } from '../../src/util/Point.ts';
-import { Level } from '../../src/mainScene/levels/Level.ts';
+import { Size } from '../util/Size.ts';
+import { Point } from '../util/Point.ts';
+import { Level } from '../mainScene/levels/Level.ts';
 
 export class LevelRepository extends EventEmitter<{
 	'sizeInTilesChanged': Size;
@@ -81,6 +81,22 @@ export class LevelRepository extends EventEmitter<{
 			const sign = this.level.signs.find(sign => sign.position.x === position.x && sign.position.y === position.y)!;
 			this.level.signs = this.level.signs.filter(s => s.position.x !== position.x || s.position.y !== position.y);
 			this.emit('signRemoved', sign);
+		}
+	}
+
+	reset(): void {
+		this.setStartPosition({ x: 0, y: 0 });
+		this.setSizeInTiles({ width: 50, height: 30 });
+		for (const groundTile of this.level.groundTiles) {
+			this.removeTile(groundTile);
+		}
+
+		for (const zombie of this.level.zombies) {
+			this.removeZombie(zombie);
+		}
+
+		for (const sign of this.level.signs) {
+			this.removeSign(sign.position);
 		}
 	}
 

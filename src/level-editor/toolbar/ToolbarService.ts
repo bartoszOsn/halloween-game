@@ -1,15 +1,17 @@
-import { SCREEN_HEIGHT } from '../../../src/screenDimensions.ts';
+import { SCREEN_HEIGHT } from '../../screenDimensions.ts';
 import { ToolbarInfoService } from './ToolbarInfoService.ts';
-import { inject } from '../../../src/util/Container.ts';
+import { inject } from '../../util/Container.ts';
 import { ToolbarToolsService } from './ToolbarToolsService.ts';
 import { ToolbarPreviewService } from './ToolbarPreviewService.ts';
 import { ToolbarLevelJsonService } from './ToolbarLevelJsonService.ts';
+import { ToolbarResetLevelService } from './ToolbarResetLevelService.ts';
 
 export class ToolbarService {
 	private readonly toolbarInfoService = inject(ToolbarInfoService);
 	private readonly toolbarToolsService = inject(ToolbarToolsService);
 	private readonly toolbarPreviewService = inject(ToolbarPreviewService);
 	private readonly toolbarLevelJsonService = inject(ToolbarLevelJsonService);
+	private readonly toolbarResetLevelService  = inject(ToolbarResetLevelService);
 
 	init(): void {
 		this.createDOM();
@@ -37,6 +39,7 @@ export class ToolbarService {
 
 		this.toolbarPreviewService.init(actionsContainer);
 		this.toolbarLevelJsonService.init(actionsContainer);
+		this.toolbarResetLevelService.init(actionsContainer);
 
 		document.body.prepend(container);
 	}

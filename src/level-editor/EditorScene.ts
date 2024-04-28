@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Container } from '../../src/util/Container.ts';
+import { Container } from '../util/Container.ts';
 import { BackgroundService } from './BackgroundService.ts';
 import { CursorService } from './CursorService.ts';
 import { ToolbarService } from './toolbar/ToolbarService.ts';
@@ -20,6 +20,7 @@ import { TileAreaTool } from './tools/TileAreaTool.ts';
 import { DialogService } from './util/DialogService.ts';
 import { SignTool } from './tools/SignTool.ts';
 import { ToolbarLevelJsonService } from './toolbar/ToolbarLevelJsonService.ts';
+import { ToolbarResetLevelService } from './toolbar/ToolbarResetLevelService.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = new Container()
@@ -37,6 +38,7 @@ export class EditorScene extends Phaser.Scene {
 		.withClass(LevelRenderService, LevelRenderService)
 		.withClass(ToolbarPreviewService, ToolbarPreviewService)
 		.withClass(ToolbarLevelJsonService, ToolbarLevelJsonService)
+		.withClass(ToolbarResetLevelService, ToolbarResetLevelService)
 
 		.withClass(PointerTool, PointerTool)
 		.withClass(BoundsTool, BoundsTool)

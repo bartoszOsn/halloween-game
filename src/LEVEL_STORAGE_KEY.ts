@@ -1,0 +1,1 @@
+export const LEVEL_STORAGE_KEY = 'level';
