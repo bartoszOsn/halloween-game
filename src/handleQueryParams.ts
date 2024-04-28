@@ -1,5 +1,5 @@
 import { Level } from './mainScene/levels/Level.ts';
-import { LevelMessagePayload, LevelRequestedMessage } from './LevelMessagePayload.ts';
+import { LEVEL_STORAGE_KEY } from './LEVEL_STORAGE_KEY.ts';
 
 export async function handleQueryParams(): Promise<QueryParams> {
 	const urlSearchParams = new URLSearchParams(window.location.search);
@@ -10,22 +10,11 @@ export async function handleQueryParams(): Promise<QueryParams> {
 	}
 
 	if (urlSearchParams.has('level')) {
-		// const levelBase64 = urlSearchParams.get('level')!;
-		// const jsonLevel = atob(levelBase64);
-		// queryParams.level = JSON.parse(jsonLevel);
-
-		await new Promise<void>(resolve => {
-			const handler = (event: MessageEvent<LevelMessagePayload>) => {
-				if (event.data.type === 'levelSent') {
-					queryParams.level = event.data.level;
-					window.removeEventListener('message', handler);
-					resolve();
-				}
-			};
-
-			window.addEventListener('message', handler);
-			window.opener?.postMessage({ type: 'levelRequested' } satisfies LevelRequestedMessage, '*');
-		});
+		const levelRaw = localStorage	.getItem(LEVEL_STORAGE_KEY);
+		if (levelRaw) {
+			const level: Level = JSON.parse(levelRaw);
+			queryParams.level = level;
+		}
 	}
 
 	return queryParams;
