@@ -6,4 +6,8 @@ export interface Level {
 	sizeInTiles: Size;
 	groundTiles: Array<Point>;
 	zombies: Array<Point>;
+	signs: Array<{
+		position: Point;
+		text: string;
+	}>;
 }

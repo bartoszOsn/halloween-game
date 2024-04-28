@@ -3,6 +3,7 @@ import { LevelRepository } from './LevelRepository.ts';
 import { TILE_SCALE, TILE_SIZE } from '../../src/mainScene/tiles/TILE_SCALE.ts';
 import { tileToWorld } from '../../src/mainScene/tiles/tileToWorld.ts';
 import { Point } from '../../src/util/Point.ts';
+import { Level } from '../../src/mainScene/levels/Level.ts';
 
 export class LevelRenderService {
 	private readonly scene = inject(Phaser.Scene);
@@ -10,14 +11,17 @@ export class LevelRenderService {
 
 	private readonly TILE_TEXTURE = 'tile';
 	private readonly GRAVE_TEXTURE = 'grave';
+	private readonly SIGN_TEXTURE = 'sign';
 
 	private startPositionMark: Phaser.GameObjects.Arc | null = null;
 	private tiles: Set<Phaser.GameObjects.Image> = new Set();
 	private graves: Set<Phaser.GameObjects.Image> = new Set();
+	private signs: Set<Phaser.GameObjects.Image> = new Set();
 
 	preload(): void {
 		this.scene.load.image(this.TILE_TEXTURE, '/tiles/Tiles/Tile (5).png')
 		this.scene.load.image(this.GRAVE_TEXTURE, '/tiles/Objects/TombStone (1).png')
+		this.scene.load.image(this.SIGN_TEXTURE, '/tiles/Objects/Sign.png')
 	}
 
 	create(): void {
@@ -28,6 +32,8 @@ export class LevelRenderService {
 		this.levelRepository.on('tileRemoved', (tile) => this.removeTile(tile));
 		this.levelRepository.on('zombieAdded', (zombie) => this.addGrave(zombie));
 		this.levelRepository.on('zombieRemoved', (zombie) => this.removeGrave(zombie));
+		this.levelRepository.on('signAdded', (sign) => this.addSign(sign));
+		this.levelRepository.on('signRemoved', (sign) => this.removeSign(sign));
 	}
 
 	private createStartPositionMark(): void {
@@ -72,6 +78,23 @@ export class LevelRenderService {
 		Array.from(this.graves).filter((image) => image.x === worldPosition.x && image.y === worldPosition.y).forEach((image) => {
 			image.destroy();
 			this.graves.delete(image);
+		});
+	}
+
+	private addSign(sign: Level['signs'][0]): void {
+		const worldPosition = tileToWorld(sign.position.x, sign.position.y);
+		const image = this.scene.add.image(worldPosition.x, worldPosition.y, this.SIGN_TEXTURE)
+			.setOrigin(0, 0)
+			.setScale(0.35, 0.35);
+
+		this.signs?.add(image);
+	}
+
+	private removeSign(sign: Level['signs'][0]): void {
+		const worldPosition = tileToWorld(sign.position.x, sign.position.y);
+		Array.from(this.signs).filter((image) => image.x === worldPosition.x && image.y === worldPosition.y).forEach((image) => {
+			image.destroy();
+			this.signs.delete(image);
 		});
 	}
 }

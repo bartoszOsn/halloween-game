@@ -7,6 +7,7 @@ import { StartPositionTool } from './StartPositionTool.ts';
 import { TileTool } from './TileTool.ts';
 import { ZombieTool } from './ZombieTool.ts';
 import { TileAreaTool } from './TileAreaTool.ts';
+import { SignTool } from './SignTool.ts';
 
 const tools: Array<{ new (): Tool }> = [
 	PointerTool,
@@ -14,7 +15,8 @@ const tools: Array<{ new (): Tool }> = [
 	StartPositionTool,
 	TileTool,
 	TileAreaTool,
-	ZombieTool
+	ZombieTool,
+	SignTool
 ];
 
 export class ToolsService {

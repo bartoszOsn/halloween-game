@@ -17,11 +17,14 @@ import { TileTool } from './tools/TileTool.ts';
 import { ToolbarPreviewService } from './toolbar/ToolbarPreviewService.ts';
 import { ZombieTool } from './tools/ZombieTool.ts';
 import { TileAreaTool } from './tools/TileAreaTool.ts';
+import { DialogService } from './util/DialogService.ts';
+import { SignTool } from './tools/SignTool.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = new Container()
 		.withClass(LevelRepository, LevelRepository)
 		.withValue(Phaser.Scene, this)
+		.withClass(DialogService, DialogService)
 		.withClass(BackgroundService, BackgroundService)
 		.withClass(CursorService, CursorService)
 		.withClass(ToolbarService, ToolbarService)
@@ -38,7 +41,8 @@ export class EditorScene extends Phaser.Scene {
 		.withClass(StartPositionTool, StartPositionTool)
 		.withClass(TileTool, TileTool)
 		.withClass(TileAreaTool, TileAreaTool)
-		.withClass(ZombieTool, ZombieTool);
+		.withClass(ZombieTool, ZombieTool)
+		.withClass(SignTool, SignTool);
 
 	private readonly cursorService = this.container.get(CursorService);
 	private readonly toolbarService = this.container.get(ToolbarService);
