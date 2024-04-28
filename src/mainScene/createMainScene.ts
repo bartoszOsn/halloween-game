@@ -9,6 +9,7 @@ import { ZombieService } from './ZombieService.ts';
 import { PlayerStateService } from './player/PlayerStateService.ts';
 import { Level } from './levels/Level.ts';
 import { levels } from './levels/levels.ts';
+import { SignService } from './SignService.ts';
 
 export function createMainScene(level?: Level): Phaser.Scene {
 	if (!level) {
@@ -23,7 +24,8 @@ export function createMainScene(level?: Level): Phaser.Scene {
 		.withClass(TilesPartial, TilesPartial)
 		.withClass(PlayerPartial, PlayerPartial)
 		.withClass(ZombieService, ZombieService)
-		.withClass(PlayerStateService, PlayerStateService);
+		.withClass(PlayerStateService, PlayerStateService)
+		.withClass(SignService, SignService);
 
 	return container.get(Phaser.Scene);
 }

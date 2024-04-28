@@ -7,6 +7,7 @@ import { ZombieService } from './ZombieService';
 import { TILE_SIZE } from './tiles/TILE_SCALE.ts';
 import { LEVEL_TOKEN } from './levels/LevelToken.ts';
 import { SCREEN_HEIGHT } from '../screenDimensions.ts';
+import { SignService } from './SignService.ts';
 
 export class MainScene extends Phaser.Scene {
 	private readonly level = injectForward(LEVEL_TOKEN);
@@ -14,6 +15,7 @@ export class MainScene extends Phaser.Scene {
 	private readonly platformsPartial = injectForward(TilesPartial);
 	private readonly playerPartial = injectForward(PlayerPartial);
 	private readonly zombieService = injectForward(ZombieService);
+	private readonly signService = injectForward(SignService);
 
 	constructor() {
 		super('main scene');
@@ -25,11 +27,13 @@ export class MainScene extends Phaser.Scene {
 		this.playerPartial.value.load();
 		this.zombieService.value.load();
 		this.zombieService.value.load();
+		this.signService.value.preload();
 	}
 
 	create(): void {
 		this.backgroundPartial.value.create();
 		this.platformsPartial.value.create();
+		this.signService.value.create();
 		this.playerPartial.value.create();
 		this.zombieService.value.create();
 
@@ -65,9 +69,6 @@ export class MainScene extends Phaser.Scene {
 	update(): void {
 		this.playerPartial.value.update();
 		this.zombieService.value.update();
-
-		if (this.input.activePointer.isDown) {
-			console.log(this.input.activePointer.positionToCamera(this.cameras.main));
-		}
+		this.signService.value.update();
 	}
 }
