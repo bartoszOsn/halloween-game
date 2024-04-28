@@ -21,6 +21,7 @@ export const levels: Array<Level> = [
 		],
 		zombies: [
 			new Vector2(9, 48.5),
-		]
+		],
+		signs: []
 	}
 ]

@@ -1,7 +1,7 @@
 import { Tool } from './Tool.ts';
-import { inject } from '../../../src/util/Container.ts';
+import { inject } from '../../util/Container.ts';
 import Phaser from 'phaser';
-import { worldToTile } from '../../../src/mainScene/tiles/tileToWorld.ts';
+import { worldToTile } from '../../mainScene/tiles/tileToWorld.ts';
 import { LevelRepository } from '../LevelRepository.ts';
 import { DialogService } from '../util/DialogService.ts';
 
