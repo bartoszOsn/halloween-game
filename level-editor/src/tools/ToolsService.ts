@@ -6,12 +6,14 @@ import { PointerTool } from './PointerTool.ts';
 import { StartPositionTool } from './StartPositionTool.ts';
 import { TileTool } from './TileTool.ts';
 import { ZombieTool } from './ZombieTool.ts';
+import { TileAreaTool } from './TileAreaTool.ts';
 
 const tools: Array<{ new (): Tool }> = [
 	PointerTool,
 	BoundsTool,
 	StartPositionTool,
 	TileTool,
+	TileAreaTool,
 	ZombieTool
 ];
 
