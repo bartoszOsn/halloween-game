@@ -10,15 +10,9 @@ import { PlayerStateService } from './player/PlayerStateService.ts';
 import { Level } from './levels/Level.ts';
 import { levels } from './levels/levels.ts';
 
-export function createMainScene(): Phaser.Scene {
-	const query = new URLSearchParams(window.location.search);
-
-	let level: Level = levels[0];
-
-	if (query.has('level')) {
-		const levelBase64 = query.get('level')!;
-		const jsonLevel = atob(levelBase64);
-		level = JSON.parse(jsonLevel);
+export function createMainScene(level?: Level): Phaser.Scene {
+	if (!level) {
+		level = levels[0];
 	}
 
 

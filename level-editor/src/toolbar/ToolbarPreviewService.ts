@@ -1,5 +1,6 @@
 import { LevelRepository } from '../LevelRepository.ts';
 import { inject } from '../../../src/util/Container.ts';
+import { LevelMessagePayload } from '../../../src/LevelMessagePayload.ts';
 
 export class ToolbarPreviewService {
 	private readonly levelRepository = inject(LevelRepository);
@@ -12,11 +13,18 @@ export class ToolbarPreviewService {
 
 		button.addEventListener('click', () => {
 			const level = this.levelRepository.get();
-			const levelAsJson = JSON.stringify(level);
-			const levelAsBase64 = btoa(levelAsJson);
 
-			const url = `http://localhost:5173/?level=${levelAsBase64}`;
-			window.open(url, '_blank');
+			const url = `http://localhost:5173/?level`;
+			const newWindow = window.open(url, '_blank');
+			window.addEventListener('message', (e) => {
+				if (e.data.type !== 'levelRequested') {
+					return;
+				}
+				newWindow?.postMessage({
+					type: 'levelSent',
+					level: level
+				} satisfies LevelMessagePayload, '*');
+			}, { once: true })
 		});
 
 		container.append(button);
