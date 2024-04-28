@@ -15,3 +15,4 @@
 ## Assets to use
 
 - https://opengameart.org/content/free-graveyard-platformer-tileset
+- https://opengameart.org/content/animated-pixel-art-stone-gate

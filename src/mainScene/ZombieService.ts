@@ -14,6 +14,7 @@ interface ZombieState {
 export class ZombieService {
 	private readonly ZOMBIE_SPEED = 60;
 	private readonly DISTANCE_TO_SPAWN = 300;
+	private readonly TOMB_TEXTURE = 'tomb';
 
 	private readonly level = inject(LEVEL_TOKEN);
 	private readonly scene = inject(Phaser.Scene);
@@ -23,6 +24,7 @@ export class ZombieService {
 	private zombiesToSpawn = [...this.level.zombies].map(zombie => tileToWorld(zombie.x, zombie.y));
 	private readonly zombies: Array<ZombieState> = [];
 	private zombieGroup: Phaser.Physics.Arcade.Group | null = null;
+	private tombGroup: Phaser.GameObjects.Group | null = null;
 
 	load(): void {
 		for (let i = 1; i <= 11; i++) {
@@ -32,6 +34,8 @@ export class ZombieService {
 		for (let i = 1; i <= 10; i++) {
 			this.scene.load.image(`zombie-walk-${i}`, `/zombie/walk/go_${i}.png`);
 		}
+
+		this.scene.load.image(this.TOMB_TEXTURE, '/tiles/Objects/TombStone (1).png');
 	}
 
 	create(): void {
@@ -91,6 +95,15 @@ export class ZombieService {
 			console.log(zombie, player);
 			// this.playerPartial.playerImage?.setVelocity(this.KNOCKBACK_VECTOR.x, this.KNOCKBACK_VECTOR.y);
 		});
+
+		this.tombGroup = this.scene.add.group();
+		for (const zombie of this.zombiesToSpawn) {
+			const tomb = this.scene.add.image(zombie.x, zombie.y, this.TOMB_TEXTURE)
+				.setOrigin(0.5, 0.5)
+				.setTint(0x888888)
+				.setScale(0.58, 0.58);
+			this.tombGroup.add(tomb);
+		}
 	}
 
 	update(): void {
