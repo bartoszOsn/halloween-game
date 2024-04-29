@@ -1583,7 +1583,7 @@ export const level1: Level = {
 				"x": 18,
 				"y": 17
 			},
-			"text": "Co to jest:\nNie pije, nie żyje\na chodzi i gnije"
+			"text": "Co to jest:\nNie pije, nie żyje\na chodzi i gnije?"
 		}
 	],
 	"exitGate": {

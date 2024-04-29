@@ -7,6 +7,7 @@ export class Container {
 	private readonly typeToValue: Map<Constructor | InjectionToken<unknown>, unknown> = new Map<Constructor, unknown>();
 
 	protected constructor(private readonly parent: Container | null = null) {
+		this.withValue(Container, this);
 	}
 
 	static create(): Container {

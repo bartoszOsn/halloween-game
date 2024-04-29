@@ -1,26 +1,30 @@
 import { Level } from './mainScene/levels/Level.ts';
 import { LEVEL_STORAGE_KEY } from './LEVEL_STORAGE_KEY.ts';
 
-export async function handleQueryParams(): Promise<QueryParams> {
+export function handleQueryParams(): QueryParams {
+	let level: Level | undefined;
+	let debug: boolean | undefined;
+
 	const urlSearchParams = new URLSearchParams(window.location.search);
-	const queryParams: QueryParams = {};
 
 	if (urlSearchParams.has('debug')) {
-		queryParams.debug = true;
+		debug = true;
 	}
 
 	if (urlSearchParams.has('level')) {
 		const levelRaw = localStorage	.getItem(LEVEL_STORAGE_KEY);
 		if (levelRaw) {
-			const level: Level = JSON.parse(levelRaw);
-			queryParams.level = level;
+			level = JSON.parse(levelRaw);
 		}
 	}
 
-	return queryParams;
+	return new QueryParams(level, debug);
 }
 
-export interface QueryParams {
-	level?: Level;
-	debug?: boolean;
+export class QueryParams {
+	constructor(
+		public readonly level?: Level,
+		public readonly debug?: boolean
+	) {
+	}
 }
