@@ -8,11 +8,13 @@ import { TileTool } from './TileTool.ts';
 import { ZombieTool } from './ZombieTool.ts';
 import { TileAreaTool } from './TileAreaTool.ts';
 import { SignTool } from './SignTool.ts';
+import { ExitGateTool } from './ExitGateTool.ts';
 
 const tools: Array<{ new (): Tool }> = [
 	PointerTool,
 	BoundsTool,
 	StartPositionTool,
+	ExitGateTool,
 	TileTool,
 	TileAreaTool,
 	ZombieTool,

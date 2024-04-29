@@ -13,6 +13,9 @@ export class LevelRepository extends EventEmitter<{
 	'zombieRemoved': Point;
 	'signAdded': Level['signs'][number];
 	'signRemoved': Level['signs'][number];
+	'exitGatePositionChanged': Point;
+	'exitGateTriggerPositionChanged': Point;
+	'exitGateTriggerRemoved': void;
 }> {
 	private readonly level: Level = {
 		sizeInTiles: { width: 50, height: 30 },
@@ -20,7 +23,10 @@ export class LevelRepository extends EventEmitter<{
 		groundTiles: [
 		],
 		zombies: [],
-		signs: []
+		signs: [],
+		exitGate: {
+			position: { x: 0, y: 0 }
+		}
 	}
 
 	constructor() {
@@ -93,6 +99,24 @@ export class LevelRepository extends EventEmitter<{
 		}
 	}
 
+	setExitGatePosition(position: Point): void {
+		this.level.exitGate.position = position;
+		this.emit('exitGatePositionChanged', position);
+		this.saveInLS();
+	}
+
+	setExitGateTriggerPosition(position: Point): void {
+		this.level.exitGate.triggerPosition = position;
+		this.emit('exitGateTriggerPositionChanged', position);
+		this.saveInLS();
+	}
+
+	removeExitGateTrigger(): void {
+		delete this.level.exitGate.triggerPosition;
+		this.emit('exitGateTriggerRemoved', void 0);
+		this.saveInLS();
+	}
+
 	reset(): void {
 		this.setStartPosition({ x: 0, y: 0 });
 		this.setSizeInTiles({ width: 50, height: 30 });
@@ -107,6 +131,9 @@ export class LevelRepository extends EventEmitter<{
 		for (const sign of this.level.signs) {
 			this.removeSign(sign.position);
 		}
+
+		this.setExitGatePosition({ x: 0, y: 0 });
+		this.removeExitGateTrigger();
 		this.saveInLS();
 	}
 
@@ -124,6 +151,11 @@ export class LevelRepository extends EventEmitter<{
 
 		for (const sign of level.signs) {
 			this.addSign(sign.position, sign.text);
+		}
+
+		this.setExitGatePosition(level.exitGate.position);
+		if (level.exitGate.triggerPosition) {
+			this.setExitGateTriggerPosition(level.exitGate.triggerPosition);
 		}
 	}
 

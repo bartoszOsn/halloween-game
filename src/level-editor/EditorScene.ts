@@ -22,6 +22,7 @@ import { SignTool } from './tools/SignTool.ts';
 import { ToolbarLevelJsonService } from './toolbar/ToolbarLevelJsonService.ts';
 import { ToolbarResetLevelService } from './toolbar/ToolbarResetLevelService.ts';
 import { LEVEL_STORAGE_KEY } from '../LEVEL_STORAGE_KEY.ts';
+import { ExitGateTool } from './tools/ExitGateTool.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = new Container()
@@ -44,6 +45,7 @@ export class EditorScene extends Phaser.Scene {
 		.withClass(PointerTool, PointerTool)
 		.withClass(BoundsTool, BoundsTool)
 		.withClass(StartPositionTool, StartPositionTool)
+		.withClass(ExitGateTool, ExitGateTool)
 		.withClass(TileTool, TileTool)
 		.withClass(TileAreaTool, TileAreaTool)
 		.withClass(ZombieTool, ZombieTool)

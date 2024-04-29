@@ -10,4 +10,8 @@ export interface Level {
 		position: Point;
 		text: string;
 	}>;
+	exitGate: {
+		position: Point;
+		triggerPosition?: Point;
+	}
 }

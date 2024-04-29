@@ -1,5 +1,5 @@
 import './style.css'
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../src/screenDimensions.ts';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../screenDimensions.ts';
 import { EditorScene } from './EditorScene.ts';
 
 new Phaser.Game({

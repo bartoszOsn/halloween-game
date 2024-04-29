@@ -12,20 +12,28 @@ export class LevelRenderService {
 	private readonly TILE_TEXTURE = 'tile';
 	private readonly GRAVE_TEXTURE = 'grave';
 	private readonly SIGN_TEXTURE = 'sign';
+	private readonly GATE_TEXTURE = 'gate';
+	private readonly GATE_TRIGGER_TEXTURE = 'gateTrigger';
 
 	private startPositionMark: Phaser.GameObjects.Arc | null = null;
+	private gateMark: Phaser.GameObjects.Sprite | null = null;
+	private gateTrigger: Phaser.GameObjects.Image | null = null;
+
 	private tiles: Set<Phaser.GameObjects.Image> = new Set();
 	private graves: Set<Phaser.GameObjects.Image> = new Set();
 	private signs: Set<Phaser.GameObjects.Image> = new Set();
 
 	preload(): void {
-		this.scene.load.image(this.TILE_TEXTURE, '/tiles/Tiles/Tile (5).png')
-		this.scene.load.image(this.GRAVE_TEXTURE, '/tiles/Objects/TombStone (1).png')
-		this.scene.load.image(this.SIGN_TEXTURE, '/tiles/Objects/Sign.png')
+		this.scene.load.image(this.TILE_TEXTURE, '/tiles/Tiles/Tile (5).png');
+		this.scene.load.image(this.GRAVE_TEXTURE, '/tiles/Objects/TombStone (1).png');
+		this.scene.load.image(this.SIGN_TEXTURE, '/tiles/Objects/Sign.png');
+		this.scene.load.spritesheet(this.GATE_TEXTURE, '/stone_gate.png', { frameWidth: 160, frameHeight: 160 });
+		this.scene.load.image(this.GATE_TRIGGER_TEXTURE, '/pressing plate (normal).png');
 	}
 
 	create(): void {
 		this.createStartPositionMark();
+		this.createGateMark();
 
 		this.levelRepository.on('startPositionChanged', () => this.renderStartPosition());
 		this.levelRepository.on('tileAdded', (tile) => this.addTile(tile));
@@ -34,6 +42,9 @@ export class LevelRenderService {
 		this.levelRepository.on('zombieRemoved', (zombie) => this.removeGrave(zombie));
 		this.levelRepository.on('signAdded', (sign) => this.addSign(sign));
 		this.levelRepository.on('signRemoved', (sign) => this.removeSign(sign));
+		this.levelRepository.on('exitGatePositionChanged', () => this.renderGate());
+		this.levelRepository.on('exitGateTriggerRemoved', () => this.renderGate());
+		this.levelRepository.on('exitGateTriggerPositionChanged', () => this.renderGate());
 	}
 
 	private createStartPositionMark(): void {
@@ -41,10 +52,31 @@ export class LevelRenderService {
 		this.renderStartPosition();
 	}
 
+	private createGateMark(): void {
+		this.gateMark = this.scene.add.sprite(0, 0, this.GATE_TEXTURE, 0).setScale(0.5, 0.5)
+			.setOrigin(0, 0);
+		this.gateTrigger = this.scene.add.image(0, 0, this.GATE_TRIGGER_TEXTURE)
+			.setOrigin(0, 0)
+			.setVisible(false);
+		this.renderGate();
+	}
+
 	private renderStartPosition(): void {
 		const startPosition = this.levelRepository.get().startPosition;
 		const { x, y } = tileToWorld(startPosition.x, startPosition.y);
 		this.startPositionMark?.setPosition(x + TILE_SIZE / 2, y + TILE_SIZE / 2);
+	}
+
+	private renderGate(): void {
+		const gate = this.levelRepository.get().exitGate;
+		const { x, y } = tileToWorld(gate.position.x, gate.position.y);
+		this.gateMark?.setPosition(x, y);
+		if (gate.triggerPosition) {
+			const trigger = tileToWorld(gate.triggerPosition.x, gate.triggerPosition.y);
+			this.gateTrigger?.setVisible(true).setPosition(trigger.x, trigger.y);
+		} else {
+			this.gateTrigger?.setVisible(false);
+		}
 	}
 
 	private addTile(tile: Point): void {

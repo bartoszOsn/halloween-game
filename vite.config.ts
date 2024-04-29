@@ -1,5 +1,6 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite';
+import checker from 'vite-plugin-checker';
 
 export default defineConfig(({ mode  }) => {
 	const input: Record<string, string> = {
@@ -15,6 +16,11 @@ export default defineConfig(({ mode  }) => {
 			rollupOptions: {
 				input
 			}
-		}
+		},
+		plugins: [
+			checker({
+				typescript: true
+			})
+		]
 	};
 });

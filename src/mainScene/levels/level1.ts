@@ -1585,5 +1585,11 @@ export const level1: Level = {
 			},
 			"text": "Co to jest:\nNie pije, nie żyje\na chodzi i gnije"
 		}
-	]
+	],
+	"exitGate": {
+		"position": {
+			"x": 0,
+			"y": 0
+		}
+	}
 }
