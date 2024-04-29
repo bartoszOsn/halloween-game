@@ -3,6 +3,7 @@ import { LEVEL_TOKEN } from '../levels/LevelToken';
 import { PlayerFacingSide, PlayerState, PlayerStateEvent, PlayerStateService } from './PlayerStateService';
 import { tileToWorld } from '../tiles/tileToWorld.ts';
 import { SCREEN_HEIGHT } from '../../screenDimensions.ts';
+import { HealthService } from '../HealthService.ts';
 
 export class PlayerPartial {
 	private readonly LAST_TIME_ON_GROUND_JUMP_THRESHOLD = 150;
@@ -13,6 +14,7 @@ export class PlayerPartial {
 	private readonly scene = inject(Phaser.Scene);
 	private readonly level = inject(LEVEL_TOKEN);
 	private readonly playerStateService = inject(PlayerStateService);
+	private readonly healthService = inject(HealthService);
 
 	public playerImage: Phaser.Physics.Arcade.Sprite | null = null;
 
@@ -111,6 +113,7 @@ export class PlayerPartial {
 			lastHurtFrom: side
 		});
 		this.playerStateService.setHurt(200);
+		this.healthService.hurt();
 	}
 
 	private handleInput() {

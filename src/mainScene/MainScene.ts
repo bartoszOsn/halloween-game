@@ -9,6 +9,7 @@ import { LEVEL_TOKEN } from './levels/LevelToken.ts';
 import { SCREEN_HEIGHT } from '../screenDimensions.ts';
 import { SignService } from './SignService.ts';
 import { ExitGateService } from './ExitGateService.ts';
+import { HealthService } from './HealthService.ts';
 
 export class MainScene extends Phaser.Scene {
 	private readonly level = injectForward(LEVEL_TOKEN);
@@ -18,6 +19,7 @@ export class MainScene extends Phaser.Scene {
 	private readonly zombieService = injectForward(ZombieService);
 	private readonly signService = injectForward(SignService);
 	private readonly exitGateService  = injectForward(ExitGateService);
+	private readonly healthService = injectForward(HealthService);
 
 	constructor() {
 		super('main scene');
@@ -31,6 +33,7 @@ export class MainScene extends Phaser.Scene {
 		this.zombieService.value.load();
 		this.signService.value.preload();
 		this.exitGateService.value.preload();
+		this.healthService.value.preload();
 	}
 
 	create(): void {
@@ -40,6 +43,7 @@ export class MainScene extends Phaser.Scene {
 		this.playerPartial.value.create();
 		this.zombieService.value.create();
 		this.exitGateService.value.create();
+		this.healthService.value.create();
 
 		this.physics.world.setBounds(
 			0,
