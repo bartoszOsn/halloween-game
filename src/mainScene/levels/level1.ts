@@ -1588,8 +1588,8 @@ export const level1: Level = {
 	],
 	"exitGate": {
 		"position": {
-			"x": 0,
-			"y": 0
+			"x": 110,
+			"y": 22
 		}
 	}
 }
