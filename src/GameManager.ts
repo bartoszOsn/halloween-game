@@ -3,6 +3,7 @@ import { QueryParams } from './handleQueryParams.ts';
 import { Level } from './mainScene/levels/Level.ts';
 import { createMainScene } from './mainScene/createMainScene.ts';
 import { levels } from './mainScene/levels/levels.ts';
+import { DeathScene } from './death-scene/DeathScene.ts';
 
 export class GameManager {
 	private readonly game = inject(Phaser.Game);
@@ -18,6 +19,15 @@ export class GameManager {
 		const scene = createMainScene(this.container, level);
 		this.clearScenes();
 		this.game.scene.add('main', scene, true);
+	}
+
+	deathScene(): void {
+		const scene = this.container.child()
+			.withClass(DeathScene, DeathScene)
+			.get(DeathScene);
+
+		this.clearScenes();
+		this.game.scene.add('death', scene, true);
 	}
 
 	private clearScenes(): void {

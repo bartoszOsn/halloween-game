@@ -1,5 +1,6 @@
 import { inject } from '../util/Container.ts';
 import { SCREEN_WIDTH } from '../screenDimensions.ts';
+import { GameManager } from '../GameManager.ts';
 
 export class HealthService {
 	private readonly INITIAL_HEALTH = 3;
@@ -7,6 +8,7 @@ export class HealthService {
 	private readonly EMPTY_BLOOD_FLASK_TEXTURE = 'empty-blood-flask';
 
 	private readonly scene = inject(Phaser.Scene);
+	private readonly gameManager = inject(GameManager);
 
 	private readonly healthFlasks: Phaser.GameObjects.Image[] = [];
 
@@ -40,7 +42,7 @@ export class HealthService {
 	}
 
 	die(): void {
-
+		this.gameManager.deathScene();
 	}
 
 	private reRenderHealth(): void {
