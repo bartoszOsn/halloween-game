@@ -18,7 +18,7 @@ export function createMainScene(level?: Level): Phaser.Scene {
 	}
 
 
-	const container = new Container()
+	const container = Container.create()
 		.withValue(LEVEL_TOKEN, level)
 		.withClass(Phaser.Scene, MainScene)
 		.withClass(BackgroundPartial, BackgroundPartial)

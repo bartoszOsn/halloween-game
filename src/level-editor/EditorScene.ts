@@ -25,7 +25,7 @@ import { LEVEL_STORAGE_KEY } from '../LEVEL_STORAGE_KEY.ts';
 import { ExitGateTool } from './tools/ExitGateTool.ts';
 
 export class EditorScene extends Phaser.Scene {
-	private readonly container = new Container()
+	private readonly container = Container.create()
 		.withClass(LevelRepository, LevelRepository)
 		.withValue(Phaser.Scene, this)
 		.withClass(DialogService, DialogService)

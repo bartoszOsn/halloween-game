@@ -6,7 +6,15 @@ export class Container {
 	private readonly typeToConstructor: Map<Constructor, Constructor> = new Map<Constructor, Constructor>();
 	private readonly typeToValue: Map<Constructor | InjectionToken<unknown>, unknown> = new Map<Constructor, unknown>();
 
-	constructor() {
+	protected constructor(private readonly parent: Container | null = null) {
+	}
+
+	static create(): Container {
+		return new Container();
+	}
+
+	child(): Container {
+		return new Container(this);
 	}
 
 	withValue<T>(token: InjectionToken<T>, value: T): Container;
@@ -28,18 +36,23 @@ export class Container {
 			return this.typeToValue.get(typeOrToken) as T;
 		}
 
-		if (typeOrToken instanceof InjectionToken) {
+		if (typeOrToken instanceof InjectionToken && !this.parent) {
 			if (typeOrToken.defaultValue !== undefined) {
 				return typeOrToken.defaultValue;
 			}
 			throw new Error(`No value registered for ${typeOrToken.name}`);
 		}
 
-		if (this.typeToConstructor.has(typeOrToken)) {
+		if (!(typeOrToken instanceof InjectionToken) &&this.typeToConstructor.has(typeOrToken)) {
 			return this.instantiate(typeOrToken);
 		}
 
-		throw new Error(`No type registered for ${typeOrToken.name}`);
+		if (this.parent) {
+			return this.parent.get(typeOrToken);
+		} else {
+			throw new Error(`No type registered for ${typeOrToken.name}`);
+		}
+
 	}
 
 	private instantiate<T>(type: Constructor<T>): T {

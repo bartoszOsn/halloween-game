@@ -1,10 +1,10 @@
 import { Container, inject, InjectionToken } from '../../src/util/Container';
 
 describe('Container', () => {
-	let container: Container = new Container();
+	let container: Container = Container.create();
 
 	beforeEach(() => {
-		container = new Container();
+		container = Container.create();
 	});
 
 	it('should provide instance', () => {
