@@ -1,7 +1,7 @@
 import { inject } from '../../util/Container';
 import { LEVEL_TOKEN } from '../levels/LevelToken';
 import { PlayerFacingSide, PlayerState, PlayerStateEvent, PlayerStateService } from './PlayerStateService';
-import { tileToWorld } from '../tiles/tileToWorld.ts';
+import { tileToWorld, worldToTile } from '../tiles/tileToWorld.ts';
 import { SCREEN_HEIGHT } from '../../screenDimensions.ts';
 import { HealthService } from '../HealthService.ts';
 
@@ -97,6 +97,13 @@ export class PlayerPartial {
 		this.playerImage?.setFlipX(this.playerStateService.getProps().facingSide === PlayerFacingSide.Right);
 
 		this.handleInput();
+
+		const position = this.playerImage?.getCenter();
+		const posInTiles = worldToTile(position?.x ?? 0, position?.y ?? 0);
+
+		if (posInTiles.y > this.level.sizeInTiles.height) {
+			this.healthService.die();
+		}
 	}
 
 	onCollisionWithGround() {

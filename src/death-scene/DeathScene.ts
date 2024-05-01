@@ -20,7 +20,7 @@ export class DeathScene extends Phaser.Scene {
 
 		const text = this.add.text(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 'YOU DIED', {
 			fontSize: '96px',
-			color: '#1e0000',
+			color: '#f3efef',
 			fontFamily: 'sans-serif',
 			fontStyle: 'bold'
 		})

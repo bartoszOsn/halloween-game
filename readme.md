@@ -17,3 +17,5 @@
 - https://opengameart.org/content/free-graveyard-platformer-tileset
 - https://opengameart.org/content/animated-pixel-art-stone-gate
 - https://opengameart.org/content/potions-0
+- https://www.pexels.com/video/creepy-clown-laughing-and-looking-at-camera-5427487/
+- https://www.pexels.com/video/foggy-day-at-the-cemetery-7029579/

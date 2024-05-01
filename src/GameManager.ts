@@ -26,13 +26,22 @@ export class GameManager {
 			.withClass(DeathScene, DeathScene)
 			.get(DeathScene);
 
-		this.clearScenes();
-		this.game.scene.add('death', scene, true);
+		this.startScene(scene, 'death');
 	}
 
 	private clearScenes(): void {
 		for (let scene of this.game.scene.scenes) {
 			this.game.scene.remove(scene as unknown as string);
 		}
+	}
+
+	private startScene(scene: Phaser.Scene, sceneKey: string): void {
+		const fadeTime = 500;
+		this.game.scene.scenes[0].cameras.main.fadeOut(fadeTime);
+		setTimeout(() => {
+			this.clearScenes();
+			this.game.scene.add(sceneKey, scene, true);
+			this.game.scene.scenes[0].cameras.main.fadeIn(fadeTime);
+		}, fadeTime);
 	}
 }
