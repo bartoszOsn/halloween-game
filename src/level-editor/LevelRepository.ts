@@ -141,7 +141,7 @@ export class LevelRepository extends EventEmitter<{
 			return;
 		}
 
-		this.level.garlicWalls = this.level.garlicWalls.filter(wall => wall.position.x !== position.x || wall.position.y !== position.y);
+		this.level.garlicWalls = this.level.garlicWalls.filter(wall => wall.position.x !== position.x && wall.position.y !== position.y);
 		this.emit('garlicWallRemoved', wall);
 		this.saveInLS();
 	}

@@ -11,6 +11,7 @@ import { Level } from './levels/Level.ts';
 import { SignService } from './SignService.ts';
 import { ExitGateService } from './ExitGateService.ts';
 import { HealthService } from './HealthService.ts';
+import { GarlicWallService } from './GarlicWallService.ts';
 
 export function createMainScene(parentContainer: Container, level: Level): Phaser.Scene {
 	const container = parentContainer.child()
@@ -23,7 +24,8 @@ export function createMainScene(parentContainer: Container, level: Level): Phase
 		.withClass(PlayerStateService, PlayerStateService)
 		.withClass(SignService, SignService)
 		.withClass(ExitGateService, ExitGateService)
-		.withClass(HealthService, HealthService);
+		.withClass(HealthService, HealthService)
+		.withClass(GarlicWallService, GarlicWallService);
 
 	return container.get(Phaser.Scene);
 }

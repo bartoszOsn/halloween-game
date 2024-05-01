@@ -10,6 +10,7 @@ import { SCREEN_HEIGHT } from '../screenDimensions.ts';
 import { SignService } from './SignService.ts';
 import { ExitGateService } from './ExitGateService.ts';
 import { HealthService } from './HealthService.ts';
+import { GarlicWallService } from './GarlicWallService.ts';
 
 export class MainScene extends Phaser.Scene {
 	private readonly level = injectForward(LEVEL_TOKEN);
@@ -20,6 +21,7 @@ export class MainScene extends Phaser.Scene {
 	private readonly signService = injectForward(SignService);
 	private readonly exitGateService  = injectForward(ExitGateService);
 	private readonly healthService = injectForward(HealthService);
+	private readonly garlicWallService = injectForward(GarlicWallService);
 
 	constructor() {
 		super('main scene');
@@ -34,6 +36,7 @@ export class MainScene extends Phaser.Scene {
 		this.signService.value.preload();
 		this.exitGateService.value.preload();
 		this.healthService.value.preload();
+		this.garlicWallService.value.preload();
 	}
 
 	create(): void {
@@ -79,5 +82,6 @@ export class MainScene extends Phaser.Scene {
 		this.zombieService.value.update();
 		this.signService.value.update();
 		this.exitGateService.value.update();
+		this.garlicWallService.value.update();
 	}
 }
