@@ -16,6 +16,8 @@ export class LevelRepository extends EventEmitter<{
 	'exitGatePositionChanged': Point;
 	'exitGateTriggerPositionChanged': Point;
 	'exitGateTriggerRemoved': void;
+	'garlicWallAdded': Level['garlicWalls'][number];
+	'garlicWallRemoved': Level['garlicWalls'][number];
 }> {
 	private readonly level: Level = {
 		sizeInTiles: { width: 50, height: 30 },
@@ -26,7 +28,8 @@ export class LevelRepository extends EventEmitter<{
 		signs: [],
 		exitGate: {
 			position: { x: 0, y: 0 }
-		}
+		},
+		garlicWalls: []
 	}
 
 	constructor() {
@@ -117,6 +120,32 @@ export class LevelRepository extends EventEmitter<{
 		this.saveInLS();
 	}
 
+	addGarlicWall(position: Point, length: number): void {
+		if (this.hasGarlicWall(position)) {
+			return;
+		}
+
+		this.level.garlicWalls.push({ position, length });
+		this.emit('garlicWallAdded', { position, length });
+		this.saveInLS();
+	}
+
+	removeGarlicWall(position: Point): void {
+		if (!this.hasGarlicWall(position)) {
+			return;
+		}
+
+		const wall = this.level.garlicWalls.find(wall => wall.position.x <= position.x && wall.position.x + wall.length >= position.x && wall.position.y === position.y);
+
+		if (!wall) {
+			return;
+		}
+
+		this.level.garlicWalls = this.level.garlicWalls.filter(wall => wall.position.x !== position.x || wall.position.y !== position.y);
+		this.emit('garlicWallRemoved', wall);
+		this.saveInLS();
+	}
+
 	reset(): void {
 		this.setStartPosition({ x: 0, y: 0 });
 		this.setSizeInTiles({ width: 50, height: 30 });
@@ -157,6 +186,10 @@ export class LevelRepository extends EventEmitter<{
 		if (level.exitGate.triggerPosition) {
 			this.setExitGateTriggerPosition(level.exitGate.triggerPosition);
 		}
+
+		for (const wall of level.garlicWalls) {
+			this.addGarlicWall(wall.position, wall.length);
+		}
 	}
 
 	private hasTile(tile: Point): boolean {
@@ -169,6 +202,11 @@ export class LevelRepository extends EventEmitter<{
 
 	private hasSign(position: Point): boolean {
 		return this.level.signs.some(sign => sign.position.x === position.x && sign.position.y === position.y);
+	}
+
+	private hasGarlicWall(position: Point): boolean {
+		return this.level.garlicWalls.some(wall => wall.position.x <= position.x && wall.position.x + wall.length >= position.x && wall.position.y === position.y);
+
 	}
 
 	private saveInLS(): void {

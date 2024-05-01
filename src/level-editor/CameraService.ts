@@ -1,5 +1,5 @@
-import { inject } from '../../src/util/Container.ts';
-import { Point } from '../../src/util/Point.ts';
+import { inject } from '../util/Container.ts';
+import { Point } from '../util/Point.ts';
 
 export class CameraService {
 	private readonly scene = inject(Phaser.Scene);

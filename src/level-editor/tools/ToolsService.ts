@@ -9,6 +9,7 @@ import { ZombieTool } from './ZombieTool.ts';
 import { TileAreaTool } from './TileAreaTool.ts';
 import { SignTool } from './SignTool.ts';
 import { ExitGateTool } from './ExitGateTool.ts';
+import { GarlicWallTool } from './GarlicWallTool.ts';
 
 const tools: Array<{ new (): Tool }> = [
 	PointerTool,
@@ -18,7 +19,8 @@ const tools: Array<{ new (): Tool }> = [
 	TileTool,
 	TileAreaTool,
 	ZombieTool,
-	SignTool
+	SignTool,
+	GarlicWallTool
 ];
 
 export class ToolsService {

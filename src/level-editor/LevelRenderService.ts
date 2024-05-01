@@ -22,6 +22,7 @@ export class LevelRenderService {
 	private tiles: Set<Phaser.GameObjects.Image> = new Set();
 	private graves: Set<Phaser.GameObjects.Image> = new Set();
 	private signs: Set<Phaser.GameObjects.Image> = new Set();
+	private garlics: Map<Point, Phaser.GameObjects.Rectangle> = new Map();
 
 	preload(): void {
 		this.scene.load.image(this.TILE_TEXTURE, '/tiles/Tiles/Tile (5).png');
@@ -45,6 +46,8 @@ export class LevelRenderService {
 		this.levelRepository.on('exitGatePositionChanged', () => this.renderGate());
 		this.levelRepository.on('exitGateTriggerRemoved', () => this.renderGate());
 		this.levelRepository.on('exitGateTriggerPositionChanged', () => this.renderGate());
+		this.levelRepository.on('garlicWallAdded', (garlic) => this.addGarlic(garlic));
+		this.levelRepository.on('garlicWallRemoved', (garlic) => this.removeGarlic(garlic));
 	}
 
 	private createStartPositionMark(): void {
@@ -128,5 +131,22 @@ export class LevelRenderService {
 			image.destroy();
 			this.signs.delete(image);
 		});
+	}
+
+	private addGarlic(garlic: Level['garlicWalls'][number]): void {
+		const worldPosition = tileToWorld(garlic.position.x, garlic.position.y);
+		const { x: worldLength } = tileToWorld(garlic.length, 0);
+		const rect = this.scene.add.rectangle(worldPosition.x, worldPosition.y, worldLength, TILE_SIZE, 0xffffff, 0.5)
+			.setOrigin(0, 0);
+
+		this.garlics?.set(garlic.position, rect);
+	}
+
+	private removeGarlic(garlic: Level['garlicWalls'][number]): void {
+		const rect = this.garlics.get(garlic.position);
+		if (rect) {
+			rect.destroy();
+			this.garlics.delete(garlic.position);
+		}
 	}
 }

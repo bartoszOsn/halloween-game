@@ -23,6 +23,7 @@ import { ToolbarLevelJsonService } from './toolbar/ToolbarLevelJsonService.ts';
 import { ToolbarResetLevelService } from './toolbar/ToolbarResetLevelService.ts';
 import { LEVEL_STORAGE_KEY } from '../LEVEL_STORAGE_KEY.ts';
 import { ExitGateTool } from './tools/ExitGateTool.ts';
+import { GarlicWallTool } from './tools/GarlicWallTool.ts';
 
 export class EditorScene extends Phaser.Scene {
 	private readonly container = Container.create()
@@ -49,7 +50,8 @@ export class EditorScene extends Phaser.Scene {
 		.withClass(TileTool, TileTool)
 		.withClass(TileAreaTool, TileAreaTool)
 		.withClass(ZombieTool, ZombieTool)
-		.withClass(SignTool, SignTool);
+		.withClass(SignTool, SignTool)
+		.withClass(GarlicWallTool, GarlicWallTool);
 
 	private readonly cursorService = this.container.get(CursorService);
 	private readonly toolbarService = this.container.get(ToolbarService);

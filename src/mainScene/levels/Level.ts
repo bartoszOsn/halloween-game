@@ -13,5 +13,9 @@ export interface Level {
 	exitGate: {
 		position: Point;
 		triggerPosition?: Point;
-	}
+	},
+	garlicWalls: Array<{
+		position: Point;
+		length: number;
+	}>
 }

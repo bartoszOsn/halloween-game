@@ -1591,5 +1591,6 @@ export const level1: Level = {
 			"x": 110,
 			"y": 22
 		}
-	}
+	},
+	"garlicWalls": []
 }
