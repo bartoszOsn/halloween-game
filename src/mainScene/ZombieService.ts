@@ -4,6 +4,7 @@ import { TilesPartial } from './tiles/TilesPartial.ts';
 import { PlayerPartial } from './player/PlayerPartial';
 import { tileToWorld } from './tiles/tileToWorld.ts';
 import { Point } from '../util/Point.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 interface ZombieState {
 	state: 'appearing' | 'walking';
@@ -72,7 +73,7 @@ export class ZombieService {
 			]
 		});
 
-		this.zombieGroup = this.scene.physics.add.group();
+		this.zombieGroup = this.scene.physics.add.group().setDepth(DepthLayer.ENTITIES);
 
 		if (!this.platformsPartial.group) {
 			throw new Error('Platforms group is not initialized');
@@ -96,7 +97,7 @@ export class ZombieService {
 			// this.playerPartial.playerImage?.setVelocity(this.KNOCKBACK_VECTOR.x, this.KNOCKBACK_VECTOR.y);
 		});
 
-		this.tombGroup = this.scene.add.group();
+		this.tombGroup = this.scene.add.group().setDepth(DepthLayer.DECORATIONS);
 		for (const zombie of this.zombiesToSpawn) {
 			const tomb = this.scene.add.image(zombie.x, zombie.y, this.TOMB_TEXTURE)
 				.setOrigin(0.5, 0.5)

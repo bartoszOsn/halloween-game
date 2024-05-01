@@ -1,5 +1,6 @@
 import { inject } from '../../src/util/Container.ts';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../src/screenDimensions.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class BackgroundService {
 	private readonly scene = inject(Phaser.Scene);
@@ -19,6 +20,7 @@ export class BackgroundService {
 				this.scene.add.image(0, 0, `background${i}`)
 					.setDisplaySize(SCREEN_WIDTH, SCREEN_HEIGHT)
 					.setOrigin(0, 0)
+					.setDepth(DepthLayer.BACKGROUND)
 			)
 		}
 	}

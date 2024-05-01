@@ -4,6 +4,7 @@ import { TILE_SCALE, TILE_SIZE } from '../../src/mainScene/tiles/TILE_SCALE.ts';
 import { tileToWorld } from '../../src/mainScene/tiles/tileToWorld.ts';
 import { Point } from '../../src/util/Point.ts';
 import { Level } from '../../src/mainScene/levels/Level.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class LevelRenderService {
 	private readonly scene = inject(Phaser.Scene);
@@ -51,16 +52,19 @@ export class LevelRenderService {
 	}
 
 	private createStartPositionMark(): void {
-		this.startPositionMark = this.scene.add.arc(0, 0, TILE_SIZE / 2, 0, 360, false, 0xff00ff, 0.5);
+		this.startPositionMark = this.scene.add.arc(0, 0, TILE_SIZE / 2, 0, 360, false, 0xff00ff, 0.5)
+			.setDepth(DepthLayer.UI);
 		this.renderStartPosition();
 	}
 
 	private createGateMark(): void {
 		this.gateMark = this.scene.add.sprite(0, 0, this.GATE_TEXTURE, 0).setScale(0.5, 0.5)
-			.setOrigin(0, 0);
+			.setOrigin(0, 0)
+			.setDepth(DepthLayer.DECORATIONS);
 		this.gateTrigger = this.scene.add.image(0, 0, this.GATE_TRIGGER_TEXTURE)
 			.setOrigin(0, 0)
-			.setVisible(false);
+			.setVisible(false)
+			.setDepth(DepthLayer.DECORATIONS);
 		this.renderGate();
 	}
 
@@ -86,7 +90,8 @@ export class LevelRenderService {
 		const worldPosition = tileToWorld(tile.x, tile.y);
 		const image = this.scene.add.image(worldPosition.x, worldPosition.y, this.TILE_TEXTURE)
 			.setOrigin(0, 0)
-			.setScale(TILE_SCALE, TILE_SCALE);
+			.setScale(TILE_SCALE, TILE_SCALE)
+			.setDepth(DepthLayer.TILES);
 
 		this.tiles?.add(image);
 	}
@@ -103,7 +108,8 @@ export class LevelRenderService {
 		const worldPosition = tileToWorld(grave.x, grave.y);
 		const image = this.scene.add.image(worldPosition.x, worldPosition.y, this.GRAVE_TEXTURE)
 			.setOrigin(0, 0)
-			.setScale(0.5, 0.5);
+			.setScale(0.5, 0.5)
+			.setDepth(DepthLayer.DECORATIONS);
 
 		this.graves?.add(image);
 	}
@@ -120,7 +126,8 @@ export class LevelRenderService {
 		const worldPosition = tileToWorld(sign.position.x, sign.position.y);
 		const image = this.scene.add.image(worldPosition.x, worldPosition.y, this.SIGN_TEXTURE)
 			.setOrigin(0, 0)
-			.setScale(0.35, 0.35);
+			.setScale(0.35, 0.35)
+			.setDepth(DepthLayer.DECORATIONS);
 
 		this.signs?.add(image);
 	}
@@ -137,7 +144,8 @@ export class LevelRenderService {
 		const worldPosition = tileToWorld(garlic.position.x, garlic.position.y);
 		const { x: worldLength } = tileToWorld(garlic.length, 0);
 		const rect = this.scene.add.rectangle(worldPosition.x, worldPosition.y, worldLength, TILE_SIZE, 0xffffff, 0.5)
-			.setOrigin(0, 0);
+			.setOrigin(0, 0)
+			.setDepth(DepthLayer.UI);
 
 		this.garlics?.set(garlic.position, rect);
 	}

@@ -1,6 +1,7 @@
 import { inject } from '../util/Container.ts';
 import { SCREEN_WIDTH } from '../screenDimensions.ts';
 import { GameManager } from '../GameManager.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class HealthService {
 	private readonly INITIAL_HEALTH = 3;
@@ -24,7 +25,8 @@ export class HealthService {
 			const flask = this.scene.add.image( SCREEN_WIDTH - i * 40 - 24, 24, this.BLOOD_FLASK_TEXTURE)
 				.setScrollFactor(0)
 				.setOrigin(1, 0)
-				.setScale(0.08, 0.08);
+				.setScale(0.08, 0.08)
+				.setDepth(DepthLayer.UI);
 			this.healthFlasks.push(flask);
 		}
 

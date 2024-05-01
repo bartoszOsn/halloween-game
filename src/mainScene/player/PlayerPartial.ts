@@ -4,6 +4,7 @@ import { PlayerFacingSide, PlayerState, PlayerStateEvent, PlayerStateService } f
 import { tileToWorld, worldToTile } from '../tiles/tileToWorld.ts';
 import { SCREEN_HEIGHT } from '../../screenDimensions.ts';
 import { HealthService } from '../HealthService.ts';
+import { DepthLayer } from '../../DepthLayer.ts';
 
 export class PlayerPartial {
 	private readonly LAST_TIME_ON_GROUND_JUMP_THRESHOLD = 150;
@@ -47,7 +48,8 @@ export class PlayerPartial {
 			.setGravityY(600)
 			.setCollideWorldBounds(true)
 			.setDragX(1000)
-			.setScale(0.19, 0.19);
+			.setScale(0.19, 0.19)
+			.setDepth(DepthLayer.PLAYER);
 
 		this.keys = this.scene.input.keyboard?.addKeys('W,A,S,D') as any;
 		this.scene.cameras.main.startFollow(this.playerImage, false, 1, 1, 0, SCREEN_HEIGHT / 6);

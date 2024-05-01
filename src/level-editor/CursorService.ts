@@ -2,6 +2,7 @@ import { inject } from '../../src/util/Container.ts';
 import { TILE_SIZE } from '../../src/mainScene/tiles/TILE_SCALE.ts';
 import { tileToWorld, worldToTile } from '../../src/mainScene/tiles/tileToWorld.ts';
 import { ToolbarInfoService } from './toolbar/ToolbarInfoService.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class CursorService {
 	private readonly scene = inject(Phaser.Scene);
@@ -13,6 +14,7 @@ export class CursorService {
 		this.rect = this.scene.add.rectangle(0, 0, TILE_SIZE, TILE_SIZE, 0xAAFFFF);
 		this.rect.setOrigin(0, 0);
 		this.rect.setAlpha(0.5);
+		this.rect.setDepth(DepthLayer.UI);
 	}
 
 	update(): void {

@@ -5,6 +5,7 @@ import { tileToWorld } from './tiles/tileToWorld.ts';
 import { PlayerPartial } from './player/PlayerPartial.ts';
 import { TILE_SIZE } from './tiles/TILE_SCALE.ts';
 import { GameManager } from '../GameManager.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class ExitGateService {
 	private readonly level = inject(LEVEL_TOKEN);
@@ -40,7 +41,8 @@ export class ExitGateService {
 		const gatePosition = tileToWorld(this.level.exitGate.position.x, this.level.exitGate.position.y);
 
 		this.gate = this.scene.add.sprite(gatePosition.x, gatePosition.y - TILE_SIZE * 2.5, this.GATE_TEXTURE, 1)
-			.setOrigin(0, 0);
+			.setOrigin(0, 0)
+			.setDepth(DepthLayer.DECORATIONS);
 
 		if (!this.level.exitGate.triggerPosition) {
 			this.gate?.setFrame(15);
@@ -48,7 +50,8 @@ export class ExitGateService {
 		} else {
 			const pressurePlatePosition = tileToWorld(this.level.exitGate.triggerPosition.x, this.level.exitGate.triggerPosition.y);
 			this.pressurePlate = this.scene.add.image(pressurePlatePosition.x, pressurePlatePosition.y + TILE_SIZE / 3, this.PRESSURE_PLATE_NORMAL_TEXTURE)
-				.setOrigin(0, 0);
+				.setOrigin(0, 0)
+				.setDepth(DepthLayer.DECORATIONS);
 		}
 	}
 

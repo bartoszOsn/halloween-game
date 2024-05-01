@@ -2,7 +2,6 @@
 
 ## Ideas
 
-- Wall of garlic falling down
 - Some enemy that is shooting garlic
 - Some kind of puzzles
 - Player can teleport in some limited range (needs mana)

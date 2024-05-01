@@ -4,6 +4,7 @@ import { LEVEL_TOKEN } from '../levels/LevelToken.ts';
 import { TileType } from './TileType.ts';
 import { TILE_SCALE } from './TILE_SCALE.ts';
 import { tileToWorld } from './tileToWorld.ts';
+import { DepthLayer } from '../../DepthLayer.ts';
 
 export class TilesPartial {
 	private readonly scene = inject(Phaser.Scene);
@@ -18,7 +19,7 @@ export class TilesPartial {
 	}
 
 	create() {
-		this.group = this.scene.physics.add.staticGroup();
+		this.group = this.scene.physics.add.staticGroup().setDepth(DepthLayer.TILES);
 		for (let tile of this.level.groundTiles) {
 			const worldTile = tileToWorld(tile.x, tile.y);
 			const tileObject: Phaser.Physics.Arcade.Sprite = this.group.create(

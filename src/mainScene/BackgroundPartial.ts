@@ -2,6 +2,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../screenDimensions';
 import { inject } from '../util/Container';
 import { LEVEL_TOKEN } from './levels/LevelToken';
 import { TILE_SIZE } from './tiles/TILE_SCALE.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class BackgroundPartial {
 
@@ -46,6 +47,7 @@ export class BackgroundPartial {
 				.setDisplaySize(SCREEN_WIDTH, SCREEN_HEIGHT)
 				.setOrigin(0, 0)
 				.setScrollFactor(scrollFactor, 0)
+				.setDepth(DepthLayer.BACKGROUND);
 
 			x += SCREEN_WIDTH;
 		}

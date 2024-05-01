@@ -4,6 +4,7 @@ import { Level } from './levels/Level.ts';
 import { tileToWorld } from './tiles/tileToWorld.ts';
 import { TilesPartial } from './tiles/TilesPartial.ts';
 import { PlayerPartial } from './player/PlayerPartial.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class GarlicWallService {
 	private readonly scene = inject(Phaser.Scene);
@@ -34,7 +35,8 @@ export class GarlicWallService {
 
 		const garlic = this.scene.physics.add.image(worldPos.x, worldPos.y, this.GARLIC_TEXTURE)
 			.setScale(0.25)
-			.setGravityY(300);
+			.setGravityY(300)
+			.setDepth(DepthLayer.ENTITIES);
 
 		this.scene.physics.add.collider(
 			garlic,

@@ -2,6 +2,7 @@
 // import { GameManager } from '../GameManager.ts';
 import Phaser from 'phaser';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../screenDimensions.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class DeathScene extends Phaser.Scene {
 	// private readonly gameManager = inject(GameManager);
@@ -16,7 +17,8 @@ export class DeathScene extends Phaser.Scene {
 		const splashScreen = this.add.image(0, 0, this.DEATH_SPLASH_SCREEN)
 			.setOrigin(0, 0)
 			.setDisplaySize(SCREEN_WIDTH, SCREEN_HEIGHT)
-			.setAlpha(0);
+			.setAlpha(0)
+			.setDepth(DepthLayer.BACKGROUND);
 
 		const text = this.add.text(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 'YOU DIED', {
 			fontSize: '96px',
@@ -25,7 +27,8 @@ export class DeathScene extends Phaser.Scene {
 			fontStyle: 'bold'
 		})
 			.setOrigin(0.5, 0.5)
-			.setAlpha(0);
+			.setAlpha(0)
+			.setDepth(DepthLayer.UI);
 
 		const fx = this.cameras.main.postFX.addColorMatrix();
 

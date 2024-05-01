@@ -3,6 +3,7 @@ import { inject } from '../../../src/util/Container.ts';
 import { LevelRepository } from '../LevelRepository.ts';
 import { tileToWorld, worldToTile } from '../../../src/mainScene/tiles/tileToWorld.ts';
 import { TILE_SIZE } from '../../../src/mainScene/tiles/TILE_SCALE.ts';
+import { DepthLayer } from '../../DepthLayer.ts';
 
 export class BoundsTool extends Tool {
 	private readonly scene = inject(Phaser.Scene);
@@ -29,6 +30,7 @@ export class BoundsTool extends Tool {
     activate(): void {
 		this.handle = this.scene.add.rectangle(0, 0, this.HANDLE_SIZE, this.HANDLE_SIZE, 0xff0000)
 			.setInteractive({ cursor: this.CURSOR_HOVER })
+			.setDepth(DepthLayer.UI);
 		this.positionHandle();
 		this.handle.on('pointerdown', this.handlePointerDown);
     }

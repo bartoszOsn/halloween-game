@@ -4,6 +4,7 @@ import { LevelRepository } from './LevelRepository.ts';
 import { tileToWorld } from '../../src/mainScene/tiles/tileToWorld.ts';
 import { Size } from '../../src/util/Size.ts';
 import { BackgroundService } from './BackgroundService.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class BoundService {
 	private readonly scene = inject(Phaser.Scene);
@@ -18,6 +19,7 @@ export class BoundService {
 		const rect = this.scene.add.rectangle(400, 300, 200, 200, 0x00ff00, 0);
 		rect.setOrigin(0, 0);
 		rect.setStrokeStyle(2, 0xff0000);
+		rect.setDepth(DepthLayer.UI);
 
 		const level = this.levelRepository.get();
 		rect.setPosition(0, 0);

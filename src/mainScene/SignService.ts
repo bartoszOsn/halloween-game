@@ -2,6 +2,7 @@ import { inject } from '../util/Container.ts';
 import { LEVEL_TOKEN } from './levels/LevelToken.ts';
 import { tileToWorld, worldToTile } from './tiles/tileToWorld.ts';
 import { PlayerPartial } from './player/PlayerPartial.ts';
+import { DepthLayer } from '../DepthLayer.ts';
 
 export class SignService {
 	private readonly scene = inject(Phaser.Scene);
@@ -25,7 +26,8 @@ export class SignService {
 			const worldPosition = tileToWorld(sign.position.x, sign.position.y);
 			const signImage = this.scene.add.image(worldPosition.x, worldPosition.y, this.SIGN_TEXTURE)
 				.setOrigin(0, 0.55)
-				.setScale(0.5, 0.5);
+				.setScale(0.5, 0.5)
+				.setDepth(DepthLayer.DECORATIONS);
 
 			this.signs.add(signImage);
 		}
@@ -55,7 +57,7 @@ export class SignService {
 	private showSignOverlay(sign: Phaser.GameObjects.Image) {
 		this.removeSignOverlay();
 		this.currentlyVisibleSign = sign;
-		this.signOverlay = this.scene.add.group();
+		this.signOverlay = this.scene.add.group().setDepth(DepthLayer.UI);
 
 		const tilePos = worldToTile(sign.x, sign.y);
 

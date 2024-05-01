@@ -3,6 +3,7 @@ import { inject } from '../../util/Container.ts';
 import { LevelRepository } from '../LevelRepository.ts';
 import { Point } from '../../util/Point.ts';
 import { tileToWorld, worldToTile } from '../../mainScene/tiles/tileToWorld.ts';
+import { DepthLayer } from '../../DepthLayer.ts';
 
 export class GarlicWallTool extends Tool {
 	private readonly scene = inject(Phaser.Scene);
@@ -40,7 +41,8 @@ export class GarlicWallTool extends Tool {
 
 		this.marker = this.scene
 			.add.rectangle(0, 0, 0, 0,  0x00ff00, 0.5)
-			.setOrigin(0, 0);
+			.setOrigin(0, 0)
+			.setDepth(DepthLayer.UI);
 	}
 
 	updateDrag(): void {
