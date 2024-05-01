@@ -4,16 +4,19 @@ import Phaser from 'phaser';
 import { tileToWorld } from './tiles/tileToWorld.ts';
 import { PlayerPartial } from './player/PlayerPartial.ts';
 import { TILE_SIZE } from './tiles/TILE_SCALE.ts';
+import { GameManager } from '../GameManager.ts';
 
 export class ExitGateService {
 	private readonly level = inject(LEVEL_TOKEN);
 	private readonly scene = inject(Phaser.Scene);
 	private readonly playerPartial = inject(PlayerPartial);
+	private readonly gameManager = inject(GameManager);
 
 	private readonly GATE_TEXTURE = 'gate';
 	private readonly GATE_ANIMATION = 'gate-animation';
 	private readonly PRESSURE_PLATE_NORMAL_TEXTURE = 'pressure_plate_normal';
 	private readonly PRESSURE_PLATE_TRIGGERED_TEXTURE = 'pressure_plate_triggered';
+	private readonly DISTANCE_TO_TRIGGER = 50;
 	private readonly DISTANCE_TO_GATE = 50;
 
 	private gate: Phaser.GameObjects.Sprite | null = null;
@@ -41,6 +44,7 @@ export class ExitGateService {
 
 		if (!this.level.exitGate.triggerPosition) {
 			this.gate?.setFrame(15);
+			this.isGateOpen = true;
 		} else {
 			const pressurePlatePosition = tileToWorld(this.level.exitGate.triggerPosition.x, this.level.exitGate.triggerPosition.y);
 			this.pressurePlate = this.scene.add.image(pressurePlatePosition.x, pressurePlatePosition.y + TILE_SIZE / 3, this.PRESSURE_PLATE_NORMAL_TEXTURE)
@@ -51,11 +55,16 @@ export class ExitGateService {
 	update(): void {
 		if (this.playerPartial.playerImage && this.gate) {
 			const playerPosition = this.playerPartial.playerImage.getCenter();
+			const gatePosition = this.gate.getCenter();
+			const gateDistance = Phaser.Math.Distance.Between(playerPosition.x ?? 0, playerPosition.y ?? 0, gatePosition.x ?? 0, gatePosition.y ?? 0);
+			if (gateDistance < this.DISTANCE_TO_GATE && this.isGateOpen) {
+				this.gameManager.nextLevel();
+			}
 
 			if (this.level.exitGate.triggerPosition) {
 				const gateTriggerPosition = this.pressurePlate!.getCenter();
 				const distance = Phaser.Math.Distance.Between(playerPosition.x ?? 0, playerPosition.y ?? 0, gateTriggerPosition.x ?? 0, gateTriggerPosition.y ?? 0);
-				if (distance < this.DISTANCE_TO_GATE) {
+				if (distance < this.DISTANCE_TO_TRIGGER) {
 					this.openGate();
 					this.pressurePlate?.setTexture(this.PRESSURE_PLATE_TRIGGERED_TEXTURE);
 				} else {

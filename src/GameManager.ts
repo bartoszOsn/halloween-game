@@ -10,15 +10,28 @@ export class GameManager {
 	private readonly queryParams = inject(QueryParams);
 	private readonly container: Container = inject(Container);
 
+	private lastStartedLevel: Level | null = null;
+
 	init(): void {
 		const level = this.queryParams.level ?? levels[0];
 		this.startLevel(level);
+		this.lastStartedLevel = level;
 	}
 
 	startLevel(level: Level): void {
 		const scene = createMainScene(this.container, level);
-		this.clearScenes();
-		this.game.scene.add('main', scene, true);
+		this.startScene(scene, 'main');
+	}
+
+	nextLevel(): void {
+		const levelIndex = levels.indexOf(this.lastStartedLevel!);
+		const nextLevel = levels[levelIndex + 1];
+		if (nextLevel) {
+			this.startLevel(nextLevel);
+			this.lastStartedLevel = nextLevel;
+		} else {
+			this.startLevel(levels[0]);
+		}
 	}
 
 	deathScene(): void {
@@ -36,8 +49,10 @@ export class GameManager {
 	}
 
 	private startScene(scene: Phaser.Scene, sceneKey: string): void {
-		const fadeTime = 500;
-		this.game.scene.scenes[0].cameras.main.fadeOut(fadeTime);
+		const fadeTime = this.game.scene.scenes.length > 0 ? 500 : 0;
+		if (this.game.scene.scenes.length > 0) {
+			this.game.scene.scenes[0].cameras.main.fadeOut(fadeTime);
+		}
 		setTimeout(() => {
 			this.clearScenes();
 			this.game.scene.add(sceneKey, scene, true);
