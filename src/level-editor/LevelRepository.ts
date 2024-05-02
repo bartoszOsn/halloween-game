@@ -161,6 +161,10 @@ export class LevelRepository extends EventEmitter<{
 			this.removeSign(sign.position);
 		}
 
+		for (const garlicWall of this.level.garlicWalls) {
+			this.removeGarlicWall(garlicWall.position);
+		}
+
 		this.setExitGatePosition({ x: 0, y: 0 });
 		this.removeExitGateTrigger();
 		this.saveInLS();

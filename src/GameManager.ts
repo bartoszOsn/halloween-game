@@ -51,12 +51,14 @@ export class GameManager {
 	private startScene(scene: Phaser.Scene, sceneKey: string): void {
 		const fadeTime = this.game.scene.scenes.length > 0 ? 500 : 0;
 		if (this.game.scene.scenes.length > 0) {
+			this.game.pause();
 			this.game.scene.scenes[0].cameras.main.fadeOut(fadeTime);
 		}
 		setTimeout(() => {
 			this.clearScenes();
 			this.game.scene.add(sceneKey, scene, true);
 			this.game.scene.scenes[0].cameras.main.fadeIn(fadeTime);
+			this.game.resume();
 		}, fadeTime);
 	}
 }

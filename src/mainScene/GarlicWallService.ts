@@ -35,7 +35,7 @@ export class GarlicWallService {
 
 		const garlic = this.scene.physics.add.image(worldPos.x, worldPos.y, this.GARLIC_TEXTURE)
 			.setScale(0.25)
-			.setGravityY(300)
+			.setGravityY(100)
 			.setDepth(DepthLayer.ENTITIES);
 
 		this.scene.physics.add.collider(
