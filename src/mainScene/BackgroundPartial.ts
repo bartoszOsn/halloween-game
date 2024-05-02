@@ -33,7 +33,12 @@ export class BackgroundPartial {
 			const scrollFactor = this.layersScrollFactor[layer];
 			this.createAligned(`background${layer}`, scrollFactor);
 		}
-		this.scene.sound.add('backgroundMusic', { loop: true }).play();
+		const music = this.scene.sound.add('backgroundMusic', { loop: true });
+		music.play();
+
+		this.scene.events.once('destroy', () => {
+			music.destroy();
+		});
 	}
 
 	private createAligned(texture: string, scrollFactor: number) {

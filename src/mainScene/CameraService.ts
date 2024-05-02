@@ -42,7 +42,7 @@ export 	class CameraService {
 
 		// TODO CLAMP OFFSET SO THAT PLAYER IS ALWAYS IN THE FRAME
 
-		this.scene.cameras.main.centerOn(this.playerPartial.playerImage?.getCenter().x ?? 0, newCameraY + this.OFFSET_Y);
+		this.scene.cameras.main?.centerOn(this.playerPartial.playerImage?.getCenter().x ?? 0, newCameraY + this.OFFSET_Y);
 		this.cameraY = newCameraY;
 	}
 }
