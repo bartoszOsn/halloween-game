@@ -14,7 +14,9 @@ export function bootstrap() {
 		physics: {
 			default: 'arcade',
 			arcade: {
-				debug: queryParams.debug === true
+				debug: queryParams.debug === true,
+				timeScale: 0.9,
+
 			}
 		},
 		render: {
