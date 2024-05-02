@@ -12,6 +12,7 @@ import { SignService } from './SignService.ts';
 import { ExitGateService } from './ExitGateService.ts';
 import { HealthService } from './HealthService.ts';
 import { GarlicWallService } from './GarlicWallService.ts';
+import { CameraService } from './CameraService.ts';
 
 export function createMainScene(parentContainer: Container, level: Level): Phaser.Scene {
 	const container = parentContainer.child()
@@ -25,7 +26,8 @@ export function createMainScene(parentContainer: Container, level: Level): Phase
 		.withClass(SignService, SignService)
 		.withClass(ExitGateService, ExitGateService)
 		.withClass(HealthService, HealthService)
-		.withClass(GarlicWallService, GarlicWallService);
+		.withClass(GarlicWallService, GarlicWallService)
+		.withClass(CameraService, CameraService);
 
 	return container.get(Phaser.Scene);
 }

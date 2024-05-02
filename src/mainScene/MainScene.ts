@@ -11,6 +11,7 @@ import { SignService } from './SignService.ts';
 import { ExitGateService } from './ExitGateService.ts';
 import { HealthService } from './HealthService.ts';
 import { GarlicWallService } from './GarlicWallService.ts';
+import { CameraService } from './CameraService.ts';
 
 export class MainScene extends Phaser.Scene {
 	private readonly level = injectForward(LEVEL_TOKEN);
@@ -22,6 +23,7 @@ export class MainScene extends Phaser.Scene {
 	private readonly exitGateService  = injectForward(ExitGateService);
 	private readonly healthService = injectForward(HealthService);
 	private readonly garlicWallService = injectForward(GarlicWallService);
+	private readonly cameraService = injectForward(CameraService);
 
 	constructor() {
 		super('main scene');
@@ -47,19 +49,13 @@ export class MainScene extends Phaser.Scene {
 		this.zombieService.value.create();
 		this.exitGateService.value.create();
 		this.healthService.value.create();
+		this.cameraService.value.create();
 
 		this.physics.world.setBounds(
 			0,
 			0,
 			this.level.value.sizeInTiles.width * TILE_SIZE,
 			this.level.value.sizeInTiles.height * TILE_SIZE + SCREEN_HEIGHT
-		);
-
-		this.cameras.main.setBounds(
-			0,
-			0,
-			this.level.value.sizeInTiles.width * TILE_SIZE,
-			this.level.value.sizeInTiles.height * TILE_SIZE
 		);
 
 		if (!this.playerPartial.value.playerImage || !this.platformsPartial.value.group) {
@@ -83,5 +79,6 @@ export class MainScene extends Phaser.Scene {
 		this.signService.value.update();
 		this.exitGateService.value.update();
 		this.garlicWallService.value.update();
+		this.cameraService.value.update();
 	}
 }

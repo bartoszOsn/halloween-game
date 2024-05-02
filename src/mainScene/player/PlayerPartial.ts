@@ -2,7 +2,6 @@ import { inject } from '../../util/Container';
 import { LEVEL_TOKEN } from '../levels/LevelToken';
 import { PlayerFacingSide, PlayerState, PlayerStateEvent, PlayerStateService } from './PlayerStateService';
 import { tileToWorld, worldToTile } from '../tiles/tileToWorld.ts';
-import { SCREEN_HEIGHT } from '../../screenDimensions.ts';
 import { HealthService } from '../HealthService.ts';
 import { DepthLayer } from '../../DepthLayer.ts';
 
@@ -52,7 +51,6 @@ export class PlayerPartial {
 			.setDepth(DepthLayer.PLAYER);
 
 		this.keys = this.scene.input.keyboard?.addKeys('W,A,S,D') as any;
-		this.scene.cameras.main.startFollow(this.playerImage, false, 1, 1, 0, SCREEN_HEIGHT / 6);
 		this.scene.cameras.main.postFX.addVignette(0.5, 0.5, 0.9);
 
 		this.playerStateService.on(PlayerStateEvent.ENTER_STATE, (newState: PlayerState) => {
