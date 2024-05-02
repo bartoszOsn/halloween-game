@@ -23,7 +23,10 @@ export function bootstrap() {
 			pixelArt: true,
 			transparent: false
 		},
-		disableContextMenu: true
+		disableContextMenu: true,
+		loader: {
+			baseURL: import.meta.env.MODE === 'development' ? '' : 'halloween-game/'
+		}
 	});
 
 	const container = Container.create()
