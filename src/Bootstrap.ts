@@ -25,7 +25,7 @@ export function bootstrap() {
 		},
 		disableContextMenu: true,
 		loader: {
-			baseURL: import.meta.env.MODE === 'development' ? '' : 'https://bartoszosn.github.io/halloween-game/'
+			baseURL: import.meta.env.MODE === 'development' ? '' : 'https://bartoszosn.github.io/halloween-game/' // TODO use env variable
 		}
 	});
 

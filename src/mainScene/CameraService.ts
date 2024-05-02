@@ -27,6 +27,8 @@ export 	class CameraService {
 		this.targetY = this.playerPartial.playerImage!.getCenter().y ?? this.targetY;
 		this.cameraY = this.targetY;
 		this.scene.cameras.main.centerOnY(this.cameraY);
+
+		this.scene.renderer.on('prerender', () => this.update());
 	}
 
 	update() {

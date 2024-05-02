@@ -79,6 +79,5 @@ export class MainScene extends Phaser.Scene {
 		this.signService.value.update();
 		this.exitGateService.value.update();
 		this.garlicWallService.value.update();
-		this.cameraService.value.update();
 	}
 }
