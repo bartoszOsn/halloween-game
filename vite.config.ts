@@ -12,6 +12,7 @@ export default defineConfig(({ mode  }) => {
 	}
 
 	return {
+		base: mode === 'development' ? '/' : '/halloween-game/',
 		build: {
 			rollupOptions: {
 				input
