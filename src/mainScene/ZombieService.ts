@@ -23,7 +23,7 @@ export class ZombieService {
 	private readonly playerPartial = inject(PlayerPartial);
 
 	private zombiesToSpawn = [...this.level.zombies].map(zombie => tileToWorld(zombie.x, zombie.y));
-	private readonly zombies: Array<ZombieState> = [];
+	public readonly zombies: Array<ZombieState> = [];
 	private zombieGroup: Phaser.Physics.Arcade.Group | null = null;
 	private tombGroup: Phaser.GameObjects.Group | null = null;
 

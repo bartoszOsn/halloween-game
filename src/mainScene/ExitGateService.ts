@@ -6,11 +6,13 @@ import { PlayerPartial } from './player/PlayerPartial.ts';
 import { TILE_SIZE } from './tiles/TILE_SCALE.ts';
 import { GameManager } from '../GameManager.ts';
 import { DepthLayer } from '../DepthLayer.ts';
+import { ZombieService } from './ZombieService.ts';
 
 export class ExitGateService {
 	private readonly level = inject(LEVEL_TOKEN);
 	private readonly scene = inject(Phaser.Scene);
 	private readonly playerPartial = inject(PlayerPartial);
+	private readonly zombieService = inject(ZombieService);
 	private readonly gameManager = inject(GameManager);
 
 	private readonly GATE_TEXTURE = 'gate';
@@ -65,12 +67,20 @@ export class ExitGateService {
 			}
 
 			if (this.level.exitGate.triggerPosition) {
-				const gateTriggerPosition = this.pressurePlate!.getCenter();
-				const distance = Phaser.Math.Distance.Between(playerPosition.x ?? 0, playerPosition.y ?? 0, gateTriggerPosition.x ?? 0, gateTriggerPosition.y ?? 0);
-				if (distance < this.DISTANCE_TO_TRIGGER) {
-					this.openGate();
-					this.pressurePlate?.setTexture(this.PRESSURE_PLATE_TRIGGERED_TEXTURE);
-				} else {
+				let anyPressing = false;
+				for (const triggeringEntity of this.getTriggeringEntities()) {
+					const entityPosition = triggeringEntity.getCenter();
+					const gateTriggerPosition = this.pressurePlate!.getCenter();
+					const distance = Phaser.Math.Distance.Between(entityPosition.x ?? 0, entityPosition.y ?? 0, gateTriggerPosition.x ?? 0, gateTriggerPosition.y ?? 0);
+					if (distance < this.DISTANCE_TO_TRIGGER) {
+						this.openGate();
+						this.pressurePlate?.setTexture(this.PRESSURE_PLATE_TRIGGERED_TEXTURE);
+						anyPressing = true;
+						break;
+					}
+				}
+
+				if (!anyPressing) {
 					this.closeGate();
 					this.pressurePlate?.setTexture(this.PRESSURE_PLATE_NORMAL_TEXTURE);
 				}
@@ -94,5 +104,12 @@ export class ExitGateService {
 
 		this.gate?.anims.playReverse(this.GATE_ANIMATION);
 		this.isGateOpen = false;
+	}
+
+	private getTriggeringEntities(): Phaser.GameObjects.Image[] {
+		return [
+			this.playerPartial.playerImage!,
+			...this.zombieService.zombies.map(zombie => zombie.sprite)
+		]
 	}
 }
